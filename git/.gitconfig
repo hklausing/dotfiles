@@ -1,0 +1,57 @@
+[user]
+	email = h.klausing@gmx.de
+	name = Heiko Klausing
+[alias]
+	br = branch
+	ci = commit
+	co = checkout
+	cp = cherry-pick
+	d = difftool
+	dc = diff --cached
+	di = diff
+	diffr = "!f() { git diff \"$1\"^..\"$1\"; }; f"
+	dl = !git ll -1
+	dlc = diff --cached HEAD^
+	dr = "!f() { git diff \"$1\"^..\"$1\"; }; f"
+	f = !git ls-tree -r --name-only $(git rev-parse --abbrev-ref HEAD)
+	fl = log -u
+	gr = grep -Ii
+	grep = grep -Ii
+	la = !git config -l | grep alias | cut -c 7-
+	last = log -1 HEAD
+	lasttag = describe --tags --abbrev=0
+	lc = "!f() { git ll \"$1\"^..\"$1\"; }; f"
+	ld = log --pretty=format:\"%C(yellow)%h\\\\ %ad%Cred%d\\\\ %Creset%s%Cblue\\\\ [%cn]\" --decorate --date=relative
+	lds = log --pretty=format:\"%C(yellow)%h\\\\ %ad%Cred%d\\\\ %Creset%s%Cblue\\\\ [%cn]\" --decorate --date=short
+	le = log --oneline --decorate
+	lg = log --pretty=format:\"%C(yellow)%h%Cred%d\\\\ %Creset%s%Cblue\\\\ [%cn]\" --decorate
+	ll = log --pretty=format:\"%C(yellow)%h%Cred%d\\\\ %Creset%s%Cblue\\\\ [%cn]\" --decorate --numstat
+	lnc = log --pretty=format:\"%h\\\\ %s\\\\ [%cn]\"
+	logtree = log --graph --oneline --decorate --all
+	lp = log --pretty=format:\"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr %an)%Creset\" --abbrev-commit --date=relative
+	ls = log --pretty=format:\"%C(yellow)%h%Cred%d\\\\ %Creset%s%Cblue\\\\ [%cn]\" --decorate
+	lt = describe --tags --abbrev=0
+	ph = push
+	pl = pull
+	root = rev-parse --show-toplevel
+	sa = stash apply
+	sl = stash list
+	ss = stash save
+	sd = stash drop
+	st = status
+	s = status -b -s
+[color]
+	branch = auto
+	diff = auto
+	status = auto
+	ui = true
+[core]
+	editor = vim
+[push]
+	default = simple
+[diff]
+	tool = meld
+[merge]
+	tool = meld
+[difftool]
+	prompt = false
