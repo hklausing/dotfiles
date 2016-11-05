@@ -1,7 +1,7 @@
 dotfiles
 ========
 
-dotfile is used to keep all system relevant configuration file at one
+dotfile is used to keep all system relevant configuration files at one
 location. The reason for this:
 
 * This will allow to cover the files in an easy way under
@@ -16,7 +16,7 @@ Requirements
 ------------
 
 * Used shell is bash
-* Test system is Manjaro
+* Use OS is Manjaro
 
 
 Installation
