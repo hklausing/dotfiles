@@ -138,6 +138,7 @@ echo "Install dotfiles:"
 setLink system . .bashrc
 setLink system . .bash_aliases
 setLink system . .inputrc
+setLink system . .profile
 
 
 
