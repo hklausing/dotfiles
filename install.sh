@@ -56,7 +56,7 @@ function getTargetFile()
 
 
 #==========================================================================
-# If the source file is not a link than copy the file to a storage 
+# If the source file is not a link than copy the file to a storage
 # location.
 # Param1:   source directory, relative to ditfile directory
 # Param2:   target directory, relative to home directory or absolute path
@@ -137,6 +137,7 @@ echo "Install dotfiles:"
 #
 setLink system . .bashrc
 setLink system . .bash_aliases
+setLink system . .bash_fzf
 setLink system . .inputrc
 setLink system . .bash_profile
 
@@ -148,4 +149,8 @@ setLink system . .bash_profile
 #
 setLink git . .gitconfig
 
+
+
+# reload the updated enviroment
+source ~/.bashrc
 

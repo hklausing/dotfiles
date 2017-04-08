@@ -165,7 +165,5 @@ export EDITOR=vim
 # required for update of multisystem
 export VISUAL="vim"
 
-
-
-
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+# load Fuzzy File Finder tool and realated helpers
+[ -f ~/.bash_fzf ] && source ~/.bash_fzf

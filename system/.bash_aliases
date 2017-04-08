@@ -15,6 +15,11 @@ LS=$(which ls)
 TAC=$(which tac)
 
 
+# bash start from gvim
+if [ "$TERM" = "dumb" ]; then
+    PS1='\u@\h (\W) \$ '
+fi
+
 #######
 ###
 # file list
@@ -183,4 +188,17 @@ fshow() {
       git show --color=always $sha | less -R
     done < <(sed '1d;s/^[^a-z0-9]*//;/^$/d' <<< "$out" | awk '{print $1}')
   done
+}
+
+# makevideodir
+makevideodir() {
+    mkdir -p data
+    mkdir -p data/Video
+    mkdir -p data/Video/FullMovie
+    mkdir -p data/Video/FullMovie/400
+    mkdir -p data/Video/FullMovie/720
+    mkdir -p data/Video/Scene
+    mkdir -p data/Video/Scene/576
+    mkdir -p data/Video/Scene/720
+    mkdir -p data/Video/Scene/1080
 }
