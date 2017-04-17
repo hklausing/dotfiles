@@ -51,7 +51,7 @@ match_lhs=""
 	&& match_lhs=$(dircolors --print-database)
 [[ $'\n'${match_lhs} == *$'\n'"TERM "${safe_term}* ]] && use_color=true
 
-if ${use_color} ; then
+if [[ ${use_color} == "true" ]] ; then
 	# Enable colors for ls, etc.  Prefer ~/.dir_colors #64489
 	if type -P dircolors >/dev/null ; then
 		if [[ -f ~/.dir_colors ]] ; then
@@ -167,3 +167,4 @@ export VISUAL="vim"
 
 # load Fuzzy File Finder tool and realated helpers
 [ -f ~/.bash_fzf ] && source ~/.bash_fzf
+

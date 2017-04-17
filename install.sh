@@ -140,6 +140,7 @@ setLink system . .bash_aliases
 setLink system . .bash_fzf
 setLink system . .inputrc
 setLink system . .bash_profile
+setLink system . .git-prompt.sh
 
 
 
