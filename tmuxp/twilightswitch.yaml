@@ -1,0 +1,30 @@
+#
+# File: twilightswitch.yaml
+#
+session_name: twilightswitch
+start_directory: ~/prj/SW/python/twilightswitch
+windows:
+
+- window_name: dev
+  layout: main-horizontal
+  options:
+    main-pane-height: 35
+  panes:
+
+  # pane with running vim
+  - shell_command: vim *.py
+    focus: true
+
+  # empty pane
+  - pane
+
+
+- window_name: log
+  layout: main-horizontal
+  options:
+    main-pane-height: 35
+  panes:
+
+  # display log-file
+  - shell_command: less +F sunlamp.log
+    focus: true

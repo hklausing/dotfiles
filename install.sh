@@ -23,12 +23,22 @@ g_store=".original"
 
 #==========================================================================
 # Get the current processed source path.
-# Param1:   source directory, relative to ditfile directory
+# Param1:   source directory, relative to dotfile directory
 # Param2:   file name
 #==========================================================================
 function getSourceFile()
 {
     echo "${g_trgdir}/$1/$2"
+}
+
+
+#==========================================================================
+# Get the current processed source path.
+# Param1:   source directory, relative to dotfile directory
+#==========================================================================
+function getSourceDir()
+{
+    echo "${g_trgdir}/$1"
 }
 
 
@@ -48,6 +58,21 @@ function getTargetFile()
         # ignore dor directory
         trg="~/$3"
     fi
+    # replace existing tilde '~'
+    trg=$(eval echo "${trg}")
+
+    echo ${trg}
+}
+
+
+#==========================================================================
+# Get the current processed target path.
+# Param1:   target directory, relative to home directory or absolute path
+#==========================================================================
+function getTargetDir()
+{
+    local trg="~/$1"
+
     # replace existing tilde '~'
     trg=$(eval echo "${trg}")
 
@@ -95,6 +120,9 @@ function saveOriginal()
 #==========================================================================
 function setLink()
 {
+    echo "1: $1"
+    echo "2: $2"
+    echo "3: $3"
     local src=$(getSourceFile "$1" "$3")
     local trg=$(getTargetFile "$2" "$3")
 
@@ -127,6 +155,55 @@ function setLink()
 }
 
 
+#==========================================================================
+# This function does some actions:
+# - Copies existing original directory to a storage location.
+# - Creates a link to the given parameter
+# Param1:   source directory, relative to dotfile directory
+# Param2:   target directory, relative to home directory or absolute path
+#==========================================================================
+function setLinkDir()
+{
+    echo "1: $1"
+    echo "2: $2"
+    echo "3: $3"
+    local src=$(getSourceDir "$1")
+    local trg=$(getTargetDir "$2")
+    echo "s: $src"
+    echo "t: $trg"
+
+    # test if source file exists
+    if [[ ! -d ${src} ]]; then
+        echo "ERROR: directory '${src}' not found"
+        exit 1
+    fi
+
+    echo -n "create ${src} to ${trg}"
+
+    # create target directory
+    mkdir -p $(dirname ${trg})
+
+    # store existing traget directory if not a link
+
+    if [[ ! -h ${trg} ]]; then
+        # list of files
+        for file in ${trg}/*; do
+
+            saveOriginal "${file}" "$1"
+
+        done
+
+        rm -rf ${trg}
+    fi
+
+    # make a link
+    ln -sf ${src} ${trg}
+
+    echo "   ... OK"
+
+}
+
+
 
 echo "Install dotfiles:"
 
@@ -150,6 +227,14 @@ setLink system . .git-prompt.sh
 #
 setLink git . .gitconfig
 
+
+
+###########################################################################
+#
+# tmux
+#
+setLink tmux . .tmux.conf
+setLinkDir tmuxp .tmuxp
 
 
 # reload the updated enviroment

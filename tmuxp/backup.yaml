@@ -1,0 +1,9 @@
+#
+# File: ~/.tmuxp/backup.yaml
+#
+session_name: backup
+windows:
+  - window_name: backup
+    panes:
+    - shell_command: sudo locbackup.sh
+    - shell_command: ssh miraculix sudo store.pl backing --force
