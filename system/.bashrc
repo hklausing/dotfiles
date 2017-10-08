@@ -137,7 +137,7 @@ colors() {
 	done
 }
 
-[ -r /usr/share/bash-completion/bash_completion   ] && . /usr/share/bash-completion/bash_completion
+[[ -r /usr/share/bash-completion/bash_completion   ]] && . /usr/share/bash-completion/bash_completion
 BROWSER=/usr/bin/xdg-open
 # Don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
@@ -151,10 +151,10 @@ export HISTIGNORE="&:clear:exit:[bf]g:h *:ls:mount:umount:pwd:[ \t]"
 
 
 # Load additional aliases and functions
-[ -r ~/.bash_aliases ] && . ~/.bash_aliases
+[[ -r ~/.bash_aliases ]] && . ~/.bash_aliases
 
 # Set up Git to automatically have Bash shell completion
-[ -r /usr/share/git/completion/git-completion.bash ] && . /usr/share/git/completion/git-completion.bash
+[[ -r /usr/share/git/completion/git-completion.bash ]] && . /usr/share/git/completion/git-completion.bash
 
 # Data location for gPodder
 export GPODDER_HOME=~/var/gPodder
@@ -166,5 +166,11 @@ export EDITOR=vim
 export VISUAL="vim"
 
 # load Fuzzy File Finder tool and realated helpers
-[ -f ~/.bash_fzf ] && source ~/.bash_fzf
+[[ -f ~/.bash_fzf ]] && source ~/.bash_fzf
+
+
+[[ -f ~/.fzf.bash ]] && source ~/.fzf.bash
+
+# load tmuxp tool for tmux
+[[ -d ~/.local/bin/ ]] && [[ ":$PATH:" != *":~/.local/bin:"* ]] && PATH="${PATH}:~/.local/bin:"
 

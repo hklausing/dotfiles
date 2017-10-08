@@ -38,7 +38,7 @@ DEFAULT="\[\033[0m\]"
 unset PS1
 
 
-if [ "$TERM" = "dumb" ]; then
+if [[ "$TERM" = "dumb" ]]; then
     # bash was started from gvim; special handling for PS1
     PS1='\u@\h (\W) \$ '
 else
@@ -46,7 +46,7 @@ else
     PS1="$DGRAY-($GREEN\u@\h$DGRAY)"    # user and host
     PS1+="-($RED\t$DGRAY)"              # current time
     PS1+="-($YELLOW\w$DGRAY)-"          # current directory
-    if [ -r /home/$USER/.git-prompt.sh ]; then
+    if [[ -r /home/$USER/.git-prompt.sh ]]; then
         . /home/$USER/.git-prompt.sh
         export GIT_PS1_SHOWDIRTYSTATE=1
         # Define bash prompt for git branch information
@@ -100,6 +100,8 @@ alias ..2='cd ../..'
 alias ..3='cd ../../..'
 alias ..4='cd ../../../..'
 
+alias cdprj="_cd ~/prj $1"
+
 #######
 ###
 # Create and change to new directory
@@ -107,6 +109,15 @@ alias ..4='cd ../../../..'
 mcd () {
     mkdir -p $1;
     [ -d $1 ] && cd $1
+}
+
+_cd() {
+    if [[ -d "$1/$2" ]]; then
+        cd "$1/$2"
+    else
+        echo "Directory $1/$2 not found!"
+        ls $1
+    fi
 }
 
 #######
@@ -144,6 +155,16 @@ alias svi='sudo vi'
 alias vis='vim "+set si"'
 alias ed='editor'
 
+
+######
+###
+# Switch to working directories
+alias cdinfo='cd /mnt/heiko/public/Intranet/Info/InfoPool/src/'
+alias cdcpp='_cd ~/prj/SW/cpp'
+alias cdperl='_cd ~/prj/SW/perl'
+alias cdmytools='cd ~/prj/SW/system/mytools'
+
+
 # Cleans doubles from the history file
 alias history-clean-up="\
 /bin/cp ~/.bash_history ~/.bash_history.last;\
@@ -156,6 +177,10 @@ color-tests() {
     echo ; echo -n "Current used colors (via tput): " ; tput colors ; echo
     for x in 0 1 4 5 7 8; do for i in `seq 30 37`; do for a in `seq 40 47`; do echo -ne "\e[$x;$i;$a""m\\\e[$x;$i;$a""m\e[0;37;40m "; done; echo; done; done; echo "";
 }
+
+# Convert FLAC to mp3, keep all metadata
+alias flactomp3_256k='find . -name "*.flac" -exec ffmpeg -i {} -ab 256k -map_metadata 0 -id3v2_version 3 {}.mp3 \;'
+alias flactomp3_320k='find . -name "*.flac" -exec ffmpeg -i {} -ab 320k -map_metadata 0 -id3v2_version 3 {}.mp3 \;'
 
 # Copy bash setting of current user to root
 alias bash4root='sudo /bin/cp ~/.bashrc /root/;sudo /bin/cp ~/.bash_aliases /root/'
