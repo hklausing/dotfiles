@@ -1,0 +1,47 @@
+#
+# File: .tmuxp.yaml
+#
+#
+session_name: sipcmd
+start_directory: ~/prj/SW/cpp/sip/sipcmd/
+#before_script: .do_something.sh
+
+windows:
+
+- window_name: dev
+  focus: True
+  layout: main-horizontal
+  options:
+    main-pane-height: 40
+  panes:
+
+  # pane with running vim
+  - shell_command: vim src/*.cpp src/*.h
+    focus: true
+
+  # empty pane
+  - pane
+
+- window_name: build
+  layout: main-horizontal
+  options:
+    automatic-rename: 'off'
+#   main-pane-height: 40
+  panes:
+
+  # pane with running vim
+  - shell_command:
+      - '[[ ! -d ./build ]] && mkdir -p build'
+      - cd ./build
+      - '[[ ! -f Makefile ]] && cmake ..'
+    focus: true
+
+
+- window_name: bash
+  layout: main-horizontal
+  options:
+    automatic-rename: 'off'
+  panes:
+
+  # display log-file
+  - focus: true
