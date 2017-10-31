@@ -237,6 +237,14 @@ setLink tmux . .tmux.conf
 setLinkDir tmuxp .tmuxp
 
 
+
+###########################################################################
+#
+# mc - skin
+#
+setLinkDir mc/skins .local/share/mc/skins
+
+
 # reload the updated enviroment
 source ~/.bashrc
 
