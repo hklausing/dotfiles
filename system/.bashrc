@@ -174,3 +174,9 @@ export VISUAL="vim"
 # load tmuxp tool for tmux
 [[ -d ~/.local/bin/ ]] && [[ ":$PATH:" != *":~/.local/bin:"* ]] && PATH="${PATH}:~/.local/bin:"
 
+if [[ -d $HOME/.config/base16-shell/ ]]; then
+  # include base16 function
+  BASE16_SHELL=$HOME/.config/base16-shell/
+  [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+fi
+
