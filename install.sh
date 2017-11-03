@@ -16,74 +16,147 @@
 g_trgdir=~/.dotfiles
 # Name of storage location relative to dotfile directory
 g_store=".original"
+# name of distribution
+g_dist=''
+# List of assigned functionality
+g_code=''
+#set +x
 
 
 
 
 
+#==========================================================================
+# Get the current distribution and set the variable g_dist.
+# Param1:   -
+#==========================================================================
+function distribution()
+{
+    local dist=$(lsb_release -i | sed 's/Distributor.ID\:\s*//')
+    case ${dist,,} in
+        manjarolinux)
+            g_dist='manjaro'
+#           g_list='B1 B2 B3 B4 S1 G1 G2 P1 T1 T2'
+            g_list='TT'
+            ;;
+        raspbian)
+            g_dist='debian'
+            g_list=''
+            ;;
+    esac
+}
+#==========================================================================
+# Check if the execution line code is listed in the supported lines of
+# the current distribution.
+# Param1:   Name of the line code for the execution
+# Return:   0 if the code was found, otherwise 1
+#==========================================================================
+function enabled()
+{
+    # get line code
+    line_code=$1
+    [[ -z $1 ]] && return 1
+
+    local rgex=\\b${line_code}\\b
+    [[ $g_list =~ $rgex ]] && return 0
+
+    return 1
+}
+
+
+
+#::#==========================================================================
+#::# Get the current processed source path.
+#::# Param1:   source directory, relative to dotfile directory
+#::# Param2:   file name
+#::#==========================================================================
+#::function getSourceFile()
+#::{
+#::    echo "${g_trgdir}/$1/$2"
+#::}
+#::
+#::
+#::
 #==========================================================================
 # Get the current processed source path.
 # Param1:   source directory, relative to dotfile directory
-# Param2:   file name
+# Param2:   [optional]file name
 #==========================================================================
-function getSourceFile()
+function getSource()
 {
-    echo "${g_trgdir}/$1/$2"
+    local trg="${g_trgdir}/$1/$2"
+
+    # remove trailing slashes if existing
+    echo $(echo ${trg} | sed 's|/$||g' | sed 's|\/\/|/|g')
 }
 
 
-#==========================================================================
-# Get the current processed source path.
-# Param1:   source directory, relative to dotfile directory
-#==========================================================================
-function getSourceDir()
-{
-    echo "${g_trgdir}/$1"
-}
+#::#==========================================================================
+#::# Get the current processed source path.
+#::# Param1:   source directory, relative to dotfile directory
+#::#==========================================================================
+#::function getSourceDir()
+#::{
+#::    echo "${g_trgdir}/$1"
+#::}
 
 
+#::#==========================================================================
+#::# Get the current processed target path.
+#::# Param1:   target directory, relative to home directory or absolute path
+#::# Param2:   file name
+#::#==========================================================================
+#::function getTargetFile()
+#::{
+#::    local trg="$1/$2"
+#::
+#::    if [[ $2 =~ ^/ ]]; then
+#::        # target path is absolute
+#::        trg="$2/$3"
+#::    elif [[ "$2" == "." ]]; then
+#::        # ignore dor directory
+#::        trg="~/$3"
+#::    fi
+#::    # replace existing tilde '~'
+#::    trg=$(eval echo "${trg}")
+#::
+#::    echo ${trg}
+#::}
+#::
+#::
 #==========================================================================
 # Get the current processed target path.
-# Param1:   target directory, relative to home directory or absolute path
-# Param2:   file name
+# Param1:   target directory
+# Param2:   [optional]file name
 #==========================================================================
-function getTargetFile()
+function getTarget()
 {
-    local trg="~/$1/$2"
+    local trg=$(eval echo "$1/$2")
 
-    if [[ $2 =~ ^/ ]]; then
-        # target path is absolute
-        trg="$2/$3"
-    elif [[ "$2" == "." ]]; then
-        # ignore dor directory
-        trg="~/$3"
-    fi
-    # replace existing tilde '~'
-    trg=$(eval echo "${trg}")
-
-    echo ${trg}
+    # remove trailing slashes if existing
+    echo $(echo ${trg} | sed 's|/$||g' | sed 's|\/\/|/|g')
 }
 
 
-#==========================================================================
-# Get the current processed target path.
-# Param1:   target directory, relative to home directory or absolute path
-#==========================================================================
-function getTargetDir()
-{
-    local trg="~/$1"
-
-    # replace existing tilde '~'
-    trg=$(eval echo "${trg}")
-
-    echo ${trg}
-}
+#::#==========================================================================
+#::# Get the current processed target path.
+#::# Param1:   target directory, relative to home directory or absolute path
+#::#==========================================================================
+#::function getTargetDir()
+#::{
+#::    local trg="~/$1"
+#::
+#::    # replace existing tilde '~'
+#::    trg=$(eval echo "${trg}")
+#::
+#::    echo ${trg}
+#::}
 
 
 #==========================================================================
 # If the source file is not a link than copy the file to a storage
 # location.
-# Param1:   source directory, relative to ditfile directory
+# Param1:   source directory, relative to dotfile directory
 # Param2:   target directory, relative to home directory or absolute path
 # Param3:   file name
 #==========================================================================
@@ -92,7 +165,7 @@ function saveOriginal()
     local trg="$1"
     local trgdir="$2"
 
-    # test if original file exists
+    # test if original file exists and it's not a symbolic link
     if [[ -f "${trg}" && ! -L "${trg}" ]]; then
 
         local storedir="${g_trgdir}/${g_store}"
@@ -101,9 +174,9 @@ function saveOriginal()
         echo "file '${trg}' not a symbolic link"
 
         # copy file
-        mkdir -p ${storedir}/${trgdir}/
-        cp ${trg} ${storedir}/${trgdir}/
-        rm ${trg}
+    echo mkdir -p ${storedir}/${trgdir}/
+    echo cp ${trg} ${storedir}/${trgdir}/
+    echo rm ${trg}
         echo "  ${trg} moved to '${storedir}/${trgdir}/'"
         echo -n "  create link "
     fi
@@ -120,33 +193,62 @@ function saveOriginal()
 #==========================================================================
 function setLink()
 {
-    echo "1: $1"
-    echo "2: $2"
-    echo "3: $3"
-    local src=$(getSourceFile "$1" "$3")
-    local trg=$(getTargetFile "$2" "$3")
+    local src=$(getSource "$1" "$3")
+    local trg=$(getTarget "$2" "$3")
+    echo "1:$1, 2:$2, 3:$3"
 
     # test if source file exists
-    if [[ ! -f ${src} ]]; then
-        echo "ERROR: file '${src}' not found"
+    if [[ ! -z "$3" && ! -f ${src} ]]; then
+
+        echo "ERROR: source file '${src}' not found"
         exit 1
+
+    # test if source file exists
+    elif [[ -z "$3" && ! -d ${src} ]]; then
+
+        echo "ERROR: source directory '${src}' not found"
+        exit 1
+
     fi
 
-    echo -n "create ${src} to ${trg}"
+    echo -n "$line_code: create link ${src} to ${trg}"
 
     # create target directory
     mkdir -p $(dirname ${trg})
 
-    # store existing source file if not a link
-    saveOriginal "${trg}" "$1"
+    # save file/directory if not a link
+    if [[ -f ${trg} ]]; then
+        echo -n "  file: $trg"
 
-    # make a link
-    ln -sf ${src} ${trg}
+        # store existing source file if not a link
+        saveOriginal "${trg}" "$1"
+
+    elif [[ -d ${trg} ]]; then
+        echo -n "  dir: $trg"
+
+        # save files if not a symbolic link
+        if [[ ! -L ${trg} ]]; then
+            # list of files
+            for file in ${trg}/*; do
+
+                saveOriginal "${file}" "$1"
+
+            done
+
+            rm -rf ${trg}
+
+            src="${src}/"
+        fi
+
+    fi
+
+    # make a link if link does not exists
+    [[ ! -L ${trg} ]] && ln -sf ${src} ${trg}
 
     # test if original file exists
-    if [[ ! -f "${trg}" ]]; then
+    if [[ ! -f "${trg}" && ! -d "${trg}" ]]; then
         echo
-        echo "ERROR: file '${src}' not linked."
+        echo "ERROR: file/dir '${src}' not linked."
         exit 1
     fi
 
@@ -155,69 +257,69 @@ function setLink()
 }
 
 
-#==========================================================================
-# This function does some actions:
-# - Copies existing original directory to a storage location.
-# - Creates a link to the given parameter
-# Param1:   source directory, relative to dotfile directory
-# Param2:   target directory, relative to home directory or absolute path
-#==========================================================================
-function setLinkDir()
-{
-    echo "1: $1"
-    echo "2: $2"
-    echo "3: $3"
-    local src=$(getSourceDir "$1")
-    local trg=$(getTargetDir "$2")
-    echo "s: $src"
-    echo "t: $trg"
+#::#==========================================================================
+#::# This function does some actions:
+#::# - Copies existing original directory to a storage location.
+#::# - Creates a link to the given parameter
+#::# Param1:   source directory, relative to .dotfile directory
+#::# Param2:   target directory, relative to home directory or absolute path
+#::#==========================================================================
+#::function setLinkDir()
+#::{
+#::#   local regex=\\bsetLingDir\\b
+#::#   [[ $g_list =~ ${regex} ]] || return
+#::
+#::    local src=$(getSourceDir "$1")
+#::    local trg=$(getTargetDir "$2")
+#::    #echo "s: $src"
+#::    #echo "t: $trg"
+#::
+#::    # test if source file exists
+#::    if [[ ! -d ${src} ]]; then
+#::        echo "ERROR: directory '${src}' not found"
+#::        exit 1
+#::    fi
+#::
+#::    echo -n "$line_code: create ${src} to ${trg}"
+#::
+#::    # create target directory
+#::    mkdir -p $(dirname ${trg})
+#::
+#::    # store existing target directory if not a link
+#::
+#::    if [[ ! -h ${trg} ]]; then
+#::        # list of files
+#::        for file in ${trg}/*; do
+#::
+#::            saveOriginal "${file}" "$1"
+#::
+#::        done
+#::
+#::        rm -rf ${trg}
+#::    fi
+#::
+#::    # make a link
+#::    ln -sf ${src} ${trg}
+#::
+#::    echo "   ... OK"
+#::
+#::}
 
-    # test if source file exists
-    if [[ ! -d ${src} ]]; then
-        echo "ERROR: directory '${src}' not found"
-        exit 1
-    fi
 
-    echo -n "create ${src} to ${trg}"
-
-    # create target directory
-    mkdir -p $(dirname ${trg})
-
-    # store existing traget directory if not a link
-
-    if [[ ! -h ${trg} ]]; then
-        # list of files
-        for file in ${trg}/*; do
-
-            saveOriginal "${file}" "$1"
-
-        done
-
-        rm -rf ${trg}
-    fi
-
-    # make a link
-    ln -sf ${src} ${trg}
-
-    echo "   ... OK"
-
-}
-
-
-
-echo "Install dotfiles:"
+# determine the current distribution and set the supported line codes
+distribution
+echo "Install dotfiles for '${g_dist}':"
 
 
 ###########################################################################
 #
 # system
 #
-setLink system . .bashrc
-setLink system . .bash_aliases
-setLink system . .bash_fzf
-setLink system . .inputrc
-setLink system . .bash_profile
-setLink system . .git-prompt.sh
+enabled B1 && setLink system ~ .bashrc
+enabled B2 && setLink system ~ .bash_aliases
+enabled B3 && setLink system ~ .bash_fzf
+enabled B4 && setLink system ~ .bash_profile
+enabled S1 && setLink system ~ .inputrc
 
 
 
@@ -225,7 +327,8 @@ setLink system . .git-prompt.sh
 #
 # git
 #
-setLink git . .gitconfig
+enabled G1 && setLink system ~ .git-prompt.sh
+enabled G2 && setLink git ~ .gitconfig
 
 
 
@@ -233,8 +336,14 @@ setLink git . .gitconfig
 #
 # tmux
 #
-setLink tmux . .tmux.conf
-setLinkDir tmuxp .tmuxp
+enabled T1 && setLink tmux ~ .tmux.conf
+#enabled T2 && setLinkDir tmuxp .tmuxp
+enabled T2 && setLink tmuxp ~/.tmuxp
+
+
+
+enabled TT && setLink testdir1/ ~/testdir
+enabled TT && setLink testdir2 ~/ testfile2
 
 
 
@@ -242,9 +351,9 @@ setLinkDir tmuxp .tmuxp
 #
 # mc - skin
 #
-setLinkDir mc/skins .local/share/mc/skins
+#enabled P1 && setLinkDir mc/skins .local/share/mc/skins
+enabled P1 && setLink mc/skins .local/share/mc/skins
 
 
-# reload the updated enviroment
-source ~/.bashrc
+exit 0
 
