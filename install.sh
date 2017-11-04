@@ -40,7 +40,7 @@ function distribution()
             ;;
         raspbian)
             g_dist='debian'
-            g_list=''
+            g_list='S1 G2 P1 T1 T2'
             ;;
     esac
 }
