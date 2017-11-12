@@ -27,7 +27,8 @@ g_code=''
 
 
 #==========================================================================
-# Get the current distribution and set the variable g_dist.
+# Get the current distribution and set the variable g_dist. Add the
+# required function codes to the distribution related g_list variable.
 # Param1:   -
 #==========================================================================
 function distribution()
@@ -44,6 +45,9 @@ function distribution()
             ;;
     esac
 }
+
+
+
 #==========================================================================
 # Check if the execution line code is listed in the supported lines of
 # the current distribution.
@@ -76,6 +80,7 @@ function srcPathName()
     # remove trailing and double slashes if existing
     echo $(echo ${src} | sed 's|/$||g' | sed 's|\/\/|/|g')
 }
+
 
 
 #==========================================================================
@@ -130,6 +135,7 @@ function saveOriginal()
         echo -n "  create link "
     fi
 }
+
 
 
 #==========================================================================
@@ -199,6 +205,7 @@ function makeLink()
     echo "   ... OK"
 
 }
+
 
 
 # determine the current distribution and set the supported line codes

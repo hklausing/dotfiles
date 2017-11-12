@@ -158,6 +158,14 @@ alias ed='editor'
 
 ######
 ###
+# systemd helper
+alias sctl='sudo systemctl'
+alias poweroff='sudo systemctl poweroff -i'
+alias reboot='sudo systemctl reboot -i'
+
+
+######
+###
 # Switch to working directories
 alias cdinfo='cd /mnt/heiko/public/Intranet/Info/InfoPool/src/'
 alias cdcpp='_cd ~/prj/SW/cpp'
