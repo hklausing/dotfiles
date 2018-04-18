@@ -1,0 +1,136 @@
+#
+# File:     ~/.tmuxp/icu.yaml
+# Author:   Heiko Klausing
+# Created:  2018-03-11
+# Call:     tmuxp load icu
+#
+
+session_name: icu
+
+########################################
+# Define windows
+########################################
+windows:
+
+
+# --------------------------------------
+# Window for icu definition.
+# --------------------------------------
+- window_name: icu
+
+  focus: true
+
+  # define window layout: main-vertical, mail-horizontal, tiled
+  layout: tiled
+
+  shell_command_before:
+    - cd /usr/local/etc
+
+  # Definition of all panes in this window.
+  panes:
+
+    # First pane in first window.
+    - shell_command:
+      - vim *.conf
+
+    # Second pane in first window.
+    - shell_command:
+      - sudo -s; mc
+      - cd /etc
+      - mc
+
+    # Third pane in first window.
+    - shell_command:
+      - clear
+      focus: true
+
+    # Fourth pane in first window.
+    - shell_command:
+      - sudo -s
+      - clear
+
+
+# --------------------------------------
+# Window for journal output.
+# --------------------------------------
+- window_name: journal
+
+  # define window layout.
+  layout: main-horizontal
+
+  shell_command_before:
+    - cd /
+
+  # Definition of all panes in this window.
+  panes:
+
+    # First pane in first window.
+    - shell_command:
+      - echo journal
+
+
+# --------------------------------------
+# Window for logs.
+# --------------------------------------
+- window_name: log
+
+  # define window layout.
+  layout: main-horizontal
+
+  shell_command_before:
+    - cd /var/log
+
+  # Definition of all panes in this window.
+  panes:
+
+    # First pane in first window.
+    - shell_command:
+      - echo log
+
+
+# --------------------------------------
+# Window for logs.
+# --------------------------------------
+- window_name: heiko
+
+  # define window layout.
+  layout: main-vertical
+
+  shell_command_before:
+    - cd ~
+
+  # Definition of all panes in this window.
+  panes:
+
+    # First pane in first window.
+    - shell_command:
+      - mc
+
+    # Second pane in first window.
+    - shell_command:
+      - echo heiko
+
+
+# --------------------------------------
+# Window for root.
+# --------------------------------------
+- window_name: root
+
+  # define window layout.
+  layout: main-vertical
+
+  shell_command_before:
+    - cd /
+
+  # Definition of all panes in this window.
+  panes:
+
+    # First pane in first window.
+    - shell_command:
+      - echo root1
+
+    # First pane in first window.
+    - shell_command:
+      - echo root2
+
+# vim: ai ts=2 sw=2 et sts=2 ft=yaml

@@ -1,0 +1,66 @@
+#
+# File:     ~/.tmuxp/demo.yaml
+# Author:   Heiko Klausing
+# Created:  2018-03-11
+# Call:     tmuxp load demo
+#
+
+session_name: 3-panes
+
+########################################
+# Define windows
+########################################
+windows:
+
+# --------------------------------------
+# First window definition.
+# --------------------------------------
+- window_name: window 1
+
+  # define window layout: main-vertical, mail-horizontal, tiled
+  layout: main-vertical
+
+  shell_command_before:
+    - cd ~/
+
+  # Definition of all panes in this window.
+  panes:
+
+    # First pane in first window.
+    - shell_command:
+      - cd /var/log
+      - ls -al | grep \.log
+
+    # Second pane in first window.
+    - shell_command:
+      - echo hello2
+      - clear
+
+    # Third pane in first window.
+    - shell_command:
+      - echo hello3
+      - clear
+
+# --------------------------------------
+# Second window definition.
+# --------------------------------------
+- window_name: window 2
+
+  # define window layout.
+  layout: main-horizontal
+
+  shell_command_before:
+    - cd ~/
+
+  # Definition of all panes in this window.
+  panes:
+
+    # First pane in first window.
+    - shell_command:
+      - vim
+
+    # Second pane in first window.
+    - shell_command:
+      - echo hello2
+
+# vim: ai ts=2 sw=2 et sts=2 ft=yaml
