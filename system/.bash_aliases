@@ -15,53 +15,39 @@ LS=$(which ls)
 TAC=$(which tac)
 
 
-# Define system colors
-BLACK="\[\033[0;30m\]"
-DGRAY="\[\033[1;30m\]"
-RED="\[\033[0;31m\]"
-LRED="\[\033[1;31m\]"
-GREEN="\[\033[0;32m\]"
-LGREEN="\[\033[1;32m\]"
-BROWN="\[\033[0;33m\]"
-YELLOW="\[\033[1;33m\]"
-BLUE="\[\033[0;34m\]"
-LBLUE="\[\033[1;34m\]"
-PURPLE="\[\033[0;35m\]"
-LPURPLE="\[\033[1;35m\]"
-DCYAN="\[\033[0;36m\]"
-CYAN="\[\033[1;36m\]"
-LGRAY="\[\033[0;37m\]"
-WHITE="\[\033[1;37m\]"
-DEFAULT="\[\033[0m\]"
-
+# Define system colors; use script 256-colors.sh
+NORM='\[\e[0m\]'
+MYBLUE='\[\e[38;5;31m\]'
+MYGRAY='\[\e[38;5;238m\]'
+MYGREEN='\[\e[38;5;70m\]'
+MYRED='\[\e[38;5;166m\]'
+MYCYAN='\[\e[38;5;30m\]'
+MYYELLOW='\[\e[38;5;227m\]'
 
 unset PS1
-
-
 if [[ "$TERM" = "dumb" ]]; then
     # bash was started from gvim; special handling for PS1
     PS1='\u@\h (\W) \$ '
 else
     # Standard console handling
-    PS1="$DGRAY-($GREEN\u@\h$DGRAY)"    # user and host
-    PS1+="-($RED\t$DGRAY)"              # current time
-    PS1+="-($YELLOW\w$DGRAY)-"          # current directory
+    PS1="$MYGRAY-(${MYBLUE}\$?${MYGRAY})"   # last return code
+    PS1+="-($MYGREEN\u@\h$MYGRAY)"          # user and host
+    PS1+="-($MYRED\t$MYGRAY)"               # current time
+    PS1+="-($MYYELLOW\w$MYGRAY)-"           # current directory
     if [[ -r /home/$USER/.git-prompt.sh ]]; then
         . /home/$USER/.git-prompt.sh
         export GIT_PS1_SHOWDIRTYSTATE=1
         # Define bash prompt for git branch information
-        PS1+="\$(__git_ps1 \"($CYAN%s$DGRAY)-\")"   # current branch name if git path
-        PS1+="$DEFAULT\n$ "
-    else
-        # Define bash prompt
-        PS1+="$DEFAULT\n$ "
+        PS1+="\$(__git_ps1 \"($MYCYAN%s$MYGRAY)-\")"   # current branch name if git path
     fi
+    PS1+="$NORM\n\$ "
 fi
 export PS1
 
-# disable CAPS-LOCK key
+
+# CAPS-LOCK key works as CTRL key
 [[ -x /usr/bin/setxkbmap ]] && /usr/bin/setxkbmap -option 'ctrl:nocaps'
-#xmodmap /home/$USER/.Xmodmap
+
 
 #######
 ###
@@ -135,8 +121,7 @@ alias hF='history | grep'
 alias h-cleanup=''
 
 # search in process list
-alias pf='ps waux | grep -i'
-alias pF='ps waux | grep'
+alias pf='ps -ef | grep -v $$ | grep'
 
 # environment variables
 alias envf='env | grep -i'
@@ -154,6 +139,12 @@ alias gvi='gvim -p'
 alias svi='sudo vi'
 alias vis='vim "+set si"'
 alias ed='editor'
+
+
+######
+###
+# ssh helper
+alias sshm="ssh -p7510 ${USER}@majestix"
 
 
 ######
@@ -198,10 +189,10 @@ alias system-update='sudo apt-get update;sudo apt-get upgrade'
 
 # extract files. Ignore files with improper extensions.
 # Usage: extract file.zip [file2.bz2 ..]
-extract () { 
+extract () {
     local x
     # echo and execute
-    ee() { 
+    ee() {
         echo "$@"
         $1 "$2"
     }
@@ -271,10 +262,10 @@ makevideodir() {
     mkdir -p data
     mkdir -p data/Video
     mkdir -p data/Video/FullMovie
-    mkdir -p data/Video/FullMovie/400
-    mkdir -p data/Video/FullMovie/720
+    mkdir -p data/Video/FullMovie/0400
+    mkdir -p data/Video/FullMovie/0720
     mkdir -p data/Video/Scene
-    mkdir -p data/Video/Scene/576
-    mkdir -p data/Video/Scene/720
+    mkdir -p data/Video/Scene/0576
+    mkdir -p data/Video/Scene/0720
     mkdir -p data/Video/Scene/1080
 }
