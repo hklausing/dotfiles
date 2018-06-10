@@ -13,57 +13,57 @@
 #
 #   author
 #    - display (enum) [no|full|abbreviated|email|email-user]
-#                   : Show author information?
-#    - width (int)          : Fixed width when nonzero
-#    - maxwidth (int)           : Autosize limit
+#					: Show author information?
+#    - width (int)			: Fixed width when nonzero
+#    - maxwidth (int)           	: Autosize limit
 #
 #   commit-title
-#    - display (bool)           : Show the commit title?
-#    - graph (enum) [no|v2|v1]      : Show the commit graph? (main view only)
-#    - refs (bool)          : Show branches, tags and remotes? (main view only)
-#    - overflow (boolint)       : Highlight overflows? Defaults to 50 when enabled.
+#    - display (bool)           	: Show the commit title?
+#    - graph (enum) [no|v2|v1]  	: Show the commit graph? (main view only)
+#    - refs (bool)			: Show branches, tags and remotes? (main view only)
+#    - overflow (boolint)       	: Highlight overflows? Defaults to 50 when enabled.
 #
 #   date
 #    - display (enum) [no|default|relative|relative-compact|custom]
-#                   : Show dates?
-#    - local (bool)         : Show local dates?
-#    - format (string)          : Custom strftime(3) format
+#					: Show dates?
+#    - local (bool)			: Show local dates?
+#    - format (string)          	: Custom strftime(3) format
 #                     Note: %Z is formatted as %z
-#    - width (int)          : Fixed width when nonzero
+#    - width (int)			: Fixed width when nonzero
 #
 #   file-name
 #    - display (enum) [no|always|auto]  : Show file names?
-#    - width (int)          : Fixed width when nonzero
-#    - maxwidth (int)           : Autosize limit
+#    - width (int)			: Fixed width when nonzero
+#    - maxwidth (int)           	: Autosize limit
 #
 #   file-size
 #    - display (enum) [no|default|units]
-#                   : Show file sizes?
-#    - width (int)          : Fixed width when nonzero
+#					: Show file sizes?
+#    - width (int)			: Fixed width when nonzero
 #
 #   id
-#    - display (bool)           : Show commit/tree ID?
-#    - width (int)          : Fixed width when nonzero
+#    - display (bool)           	: Show commit/tree ID?
+#    - width (int)			: Fixed width when nonzero
 #
 #   line-number
-#    - display (bool)           : Show line numbers?
-#    - interval (int)           : Interval between line numbers; defaults to 5
-#    - width (int)          : Fixed width when nonzero
+#    - display (bool)           	: Show line numbers?
+#    - interval (int)           	: Interval between line numbers; defaults to 5
+#    - width (int)			: Fixed width when nonzero
 #
 #   mode
-#    - display (bool)           : Show file modes?
-#    - width (int)          : Fixed width when nonzero
+#    - display (bool)           	: Show file modes?
+#    - width (int)			: Fixed width when nonzero
 #
 #   ref
-#    - display (bool)           : Show ref names?
-#    - width (int)          : Fixed width when nonzero
-#    - maxwidth (int)           : Autosize limit
+#    - display (bool)           	: Show ref names?
+#    - width (int)			: Fixed width when nonzero
+#    - maxwidth (int)			: Autosize limit
 #
 #   status
 #    - display (enum) [no|short|long]   : Show status label?
 #
 #   text
-#    - display (bool)           : Show text?
+#    - display (bool)			: Show text?
 #    - commit-title-overflow (boolint)  : Highlight overflow in log and diff view?
 #
 
@@ -109,14 +109,14 @@ set status-show-untracked-dirs  = yes           # Show files in untracked direct
 set status-show-untracked-files = yes           # Show untracked files?
 set ignore-space                = no            # Enum: no, all, some, at-eol (diff)
 set show-notes                  = yes           # When non-bool passed as `--show-notes=...` (diff)
-#set diff-context               = 3             # Number of lines to show around diff changes (diff)
-#set diff-options               = -C            # User-defined options for `tig show` (git-diff)
-#set diff-highlight             = true          # String (or bool): Path to diff-highlight script,
+# set diff-context              = 3             # Number of lines to show around diff changes (diff)
+# set diff-options              = -C            # User-defined options for `tig show` (git-diff)
+# set diff-highlight            = true          # String (or bool): Path to diff-highlight script,
                                                 #                   defaults to `diff-highlight`.
-#set blame-options              = -C -C -C      # User-defined options for `tig blame` (git-blame)
-#set log-options                = --pretty=raw  # User-defined options for `tig log` (git-log)
-#set main-options               = -n 1000       # User-defined options for `tig` (git-log)
-#set mailmap                    = yes           # Use .mailmap to show canonical name and email address
+# set blame-options             = -C -C -C      # User-defined options for `tig blame` (git-blame)
+# set log-options               = --pretty=raw  # User-defined options for `tig log` (git-log)
+# set main-options              = -n 1000       # User-defined options for `tig` (git-log)
+# set mailmap                   = yes           # Use .mailmap to show canonical name and email address
 
 # Misc
 set refresh-mode                = auto          # Enum: manual, auto, after-command, periodic
@@ -125,7 +125,7 @@ set ignore-case                 = no            # Enum: no, yes, smart-case
                                                 # Ignore case when searching? Smart-case option will
 set wrap-search                 = yes           # Wrap around to top/bottom of view when searching
 set focus-child                 = yes           # Move focus to child view when opened?
-#set send-child-enter            = yes           # Propagate "enter" keypresses to child views?
+# set send-child-enter          = yes           # Propagate "enter" keypresses to child views?
 set horizontal-scroll           = 50%           # Number of columns to scroll as % of width
 set split-view-height           = 67%           # Height of the bottom view for horizontal splits
 set vertical-split              = auto          # Enum: horizontal, vertical, auto; Use auto to
@@ -137,6 +137,7 @@ set history-size                = 500           # Size of persistent history, 0 
 set mouse                       = yes           # Enable mouse support?
 set mouse-scroll                = 3             # Number of lines to scroll via the mouse
 set mouse-wheel-cursor          = yes           # Prefer moving the cursor to scrolling the view?
+
 
 # User-defined commands
 # ---------------------
@@ -174,18 +175,11 @@ set mouse-wheel-cursor          = yes           # Prefer moving the cursor to sc
 #   %(diffargs)         The diff options from `diff-options` or `TIG_DIFF_OPTS`
 #   %(prompt)           Prompt for the argument value.
 
-bind main       C       ?git cherry-pick %(commit)
-bind status     C       !git commit
-bind stash      A       ?git stash apply %(stash)
-bind stash      P       ?git stash pop %(stash)
-bind stash      !       ?git stash drop %(stash)
-bind refs       C       ?git checkout %(branch)
-bind refs       !       ?git branch -D %(branch)
-bind refs       M       ?git merge %(branch)
 
 # Normal commands
 # ---------------
 
+#######################################################
 # View switching
 bind generic    m       view-main
 bind generic    d       view-diff
@@ -220,24 +214,6 @@ bind generic    q       view-close              # Close the current view
 bind generic    Q       quit                    # Close all views and quit
 bind generic    <C-C>   quit                    # Close all views and quit
 
-# View specific
-bind status     u       status-update           # Stage/unstage changes in file
-bind status     !       status-revert           # Revert changes in file
-bind status     M       status-merge            # Open git-mergetool(1)
-#bind status            ??? :toggle status      # Show short or long status labels
-bind stage      u       status-update           # Stage/unstage current diff (c)hunk
-bind stage      1       stage-update-line       # Stage/unstage current line
-bind stage      !       status-revert           # Revert current diff (c)hunk
-bind stage      \       stage-split-chunk       # Split current diff (c)hunk
-bind stage      @       :/^@@                   # Jump to next (c)hunk
-bind stage      [       :toggle diff-context -1 # Decrease the diff context
-bind stage      ]       :toggle diff-context +1 # Increase the diff context
-bind diff       @       :/^@@                   # Jump to next (c)hunk
-bind diff       [       :toggle diff-context -1
-bind diff       ]       :toggle diff-context +1
-bind main       G       :toggle commit-title-graph # Toggle revision graph visualization
-bind main       F       :toggle commit-title-refs  # Toggle reference display (tags/branches)
-
 # Cursor navigation
 bind generic    j       move-down
 bind generic    k       move-up
@@ -266,6 +242,7 @@ bind generic    /       search
 bind generic    ?       search-back
 bind generic    n       find-next
 bind generic    N       find-prev
+
 # Navigation keys used while searching
 bind search     <Down>  find-next
 bind search     <C-N>   find-next
@@ -305,82 +282,109 @@ bind generic    <C-L>   screen-redraw           # Redraw the screen
 bind generic    z       stop-loading            # Stop all loading views
 bind generic    v       show-version            # Show Tig version
 
-
-# my improvenmts for tig key commands
 #
-# Save all changed and untrackt files to stash
+			# Add/edit notes for the current commit used during a review:
+bind generic    T       !git notes edit %(commit)
+			# less-like page scrolling:
+bind generic    <Ctrl-f> scroll-page-down
+bind generic    <Ctrl-b> scroll-page-up
+			# Add verbose flag to git-commit:
+bind generic    C       !git commit -v
+			# Amend last commit:
+bind generic    +       !git commit --amend
+			# Open the commit on Github:
+bind generic    B       @sh -c "xdg-open 'https://'$(git remote -v | grep -Eo 'github.com[:/][^.]+' | head -1 | tr : /)'/commit/%(commit)'"
+			# Copy commit title to clipboard:
+bind generic    9       !@sh -c "git show -s --format=%s %(commit) | xclip -selection c" # Linux
+# bind generic  9       !@sh -c "git show -s --format=%s %(commit) | pbcopy" # Mac
+# bind generic  9       !@sh -c "git show -s --format=%s %(commit) > /dev/clipboard" # Cygwin
+
+
+#######################################################
+# View specific
+#######################################################
+
+
+# status ==============================================
+bind status     u       status-update           # Stage/unstage changes in file
+bind status     !       status-revert           # Revert changes in file
+bind status     M       status-merge            # Open git-mergetool(1)
+# bind status   ???     :toggle status          # Show short or long status labels
+bind status     C       !git commit
+
+#
+			# Save all changed and untrackt files to stash
 bind status     S       !?git stash save "%(prompt Enter stash name: )"
-
-# Amend the last commit text
+			# Amend the last commit text
 bind status     *       !?git commit --amend
-
-# Push local commited changes to origin:
-bind refs       P       !git push origin
+			# Push local committed changes to origin:
 bind status     P       !git push origin
+			# Intent to add (might be useful if you want to add-patch a newly created file): 
+bind status     N       !@git add -N %(file)
+			# Delete a file:
+bind status	D	!@?rm %(file)
+			# Patch the file under the cursor:
+bind status     P       !git add --patch %(file)
+			# Add selected file to .gitignore and open vim for additional changes:
+bind status     <Ctrl-r> !sh -c "echo %(file) >> .gitignore && vi .gitignore"
+			# Compare changed file in status view:
+bind status     <F4>    !sh -c "git difftool -y \"$(git rev-parse --show-toplevel)/%(file)\""
 
-# Move in diff view with arrow keys: 
+
+# stage ===============================================
+bind stage      u       status-update           # Stage/unstage current diff (c)hunk
+bind stage      1       stage-update-line       # Stage/unstage current line
+bind stage      !       status-revert           # Revert current diff (c)hunk
+bind stage      \       stage-split-chunk       # Split current diff (c)hunk
+bind stage      @       :/^@@                   # Jump to next (c)hunk
+bind stage      [       :toggle diff-context -1 # Decrease the diff context
+bind stage      ]       :toggle diff-context +1 # Increase the diff context
+
+
+# diff ================================================
+bind diff       @       :/^@@                   # Jump to next (c)hunk
+bind diff       [       :toggle diff-context -1
+bind diff       ]       :toggle diff-context +1
+
+#
+			# Move in diff view with arrow keys: 
 bind diff       <Up>    move-up
 bind diff       <Down>  move-down
 
-# Intent to add (might be useful if you want to add-patch a newly created file): 
-bind status     N       !@git add -N %(file)
 
-# Interactive rebase:
+# main ================================================
+bind main       G       :toggle commit-title-graph # Toggle revision graph visualization
+bind main       F       :toggle commit-title-refs  # Toggle reference display (tags/branches)
+bind main       C       ?git cherry-pick %(commit)
+
+#
+			# Interactive rebase:
 bind main       B       !git rebase -i %(commit)
-
-# Revert: 
+			# Revert: 
 bind main       !       !git revert %(commit)
+			# Tag the selected commit:
+bind main       T       !@git tag "%(prompt Set tag name)" %(commit)
+			# Compare selected commit in log view (main view) with its parent:
+bind main       <F4>    !git difftool -d %(commit)^!
 
-# Create a new branch:
+
+# refs ================================================
+bind refs       C       ?git checkout %(branch)
+bind refs       !       ?git branch -D %(branch)
+bind refs       M       ?git merge %(branch)
+
+#
+			# Push local committed changes to origin:
+bind refs       P       !git push origin
+			# Create a new branch:
 bind refs       n       !@git branch "%(prompt Enter branch name: )"
 
-# Add/edit notes for the current commit used during a review:
-bind generic    T       !git notes edit %(commit)
 
-# less-like page scrolling:
-bind generic    <Ctrl-f> scroll-page-down
-bind generic    <Ctrl-b> scroll-page-up
+# stash ===============================================
+bind stash      A       ?git stash apply %(stash)
+bind stash      P       ?git stash pop %(stash)
+bind stash      D       ?git stash drop %(stash)
 
-# Add verbose flag to git-commit:
-bind generic    C       !git commit -v
-
-# Amend last commit:
-bind generic    +       !git commit --amend
-
-#:# Drop the selected stash:
-#:bind stash      D       !?git stash drop %(stash)
-#:
-#:# Apply the selected stash:
-#:bind stash      A       !?git stash apply %(stash)
-#:
-#:# Stash the unstaged changes:
-#:bind status     S       !?git stash save --keep-index %(prompt)
-
-# Delete a file:
-bind status	D	!@?rm %(file)
-
-# Tag the selected commit:
-bind main       T       !@git tag "%(prompt Set tag name)" %(commit)
-
-# Open the commit on Github:
-bind generic    B       @sh -c "xdg-open 'https://'$(git remote -v | grep -Eo 'github.com[:/][^.]+' | head -1 | tr : /)'/commit/%(commit)'"
-
-# Patch the file under the cursor:
-bind status     P       !git add --patch %(file)
-
-# Copy commit title to clipboard:
-bind generic    9       !@sh -c "git show -s --format=%s %(commit) | xclip -selection c" # Linux
-#bind generic   9       !@sh -c "git show -s --format=%s %(commit) | pbcopy" # Mac
-#bind generic   9       !@sh -c "git show -s --format=%s %(commit) > /dev/clipboard" # Cygwin
-
-# Add selected file to .gitignore and open vim for additional changes:
-bind status     <Ctrl-r> !sh -c "echo %(file) >> .gitignore && vi .gitignore"
-
-# Compare changed file in status view:
-bind status     <F4>    !sh -c "git difftool -y \"$(git rev-parse --show-toplevel)/%(file)\""
-
-# Compare selected commit in log view (main view) with its parent:
-bind main       <F4>    !git difftool -d %(commit)^!
 
 
 # Colors
