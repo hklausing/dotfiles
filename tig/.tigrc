@@ -315,7 +315,7 @@ bind status     S       !?git stash save "%(prompt Enter stash name: )"
 bind status     *       !?git commit --amend
 
 # Push local commited changes to origin:
-bind refs       P       !git push origin %{branch}
+bind refs       P       !git push origin %(branch)
 #bind status     P       !git push origin
 
 # Move in diff view with arrow keys: 
