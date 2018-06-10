@@ -315,8 +315,8 @@ bind status     S       !?git stash save "%(prompt Enter stash name: )"
 bind status     *       !?git commit --amend
 
 # Push local commited changes to origin:
-bind refs       P       !git push origin %(branch)
-#bind status     P       !git push origin
+bind refs       P       !git push origin
+bind status     P       !git push origin
 
 # Move in diff view with arrow keys: 
 bind diff       <Up>    move-up
@@ -357,7 +357,7 @@ bind generic    +       !git commit --amend
 #:bind status     S       !?git stash save --keep-index %(prompt)
 
 # Delete a file:
-bind status     D       !@?rm %(file)
+bind status	D	!@?rm %(file)
 
 # Tag the selected commit:
 bind main       T       !@git tag "%(prompt Set tag name)" %(commit)
@@ -376,6 +376,11 @@ bind generic    9       !@sh -c "git show -s --format=%s %(commit) | xclip -sele
 # Add selected file to .gitignore and open vim for additional changes:
 bind status     <Ctrl-r> !sh -c "echo %(file) >> .gitignore && vi .gitignore"
 
+# Compare changed file in status view:
+bind status     <F4>    !sh -c "git difftool -y \"$(git rev-parse --show-toplevel)/%(file)\""
+
+# Compare selected commit in log view (main view) with its parent:
+bind main       <F4>    !git difftool -d %(commit)^!
 
 
 # Colors
@@ -518,4 +523,4 @@ set git-colors = \
         status.changed=stat-unstaged \
         status.untracked=stat-untracked
 
-#vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=conf
+# vim: tabstop=8 softtabstop=8 shiftwidth=8 noexpandtab filetype=conf
