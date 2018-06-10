@@ -13,57 +13,57 @@
 #
 #   author
 #    - display (enum) [no|full|abbreviated|email|email-user]
-#					: Show author information?
-#    - width (int)			: Fixed width when nonzero
-#    - maxwidth (int)           	: Autosize limit
+#                                       : Show author information?
+#    - width (int)                      : Fixed width when nonzero
+#    - maxwidth (int)                   : Autosize limit
 #
 #   commit-title
-#    - display (bool)           	: Show the commit title?
-#    - graph (enum) [no|v2|v1]  	: Show the commit graph? (main view only)
-#    - refs (bool)			: Show branches, tags and remotes? (main view only)
-#    - overflow (boolint)       	: Highlight overflows? Defaults to 50 when enabled.
+#    - display (bool)                   : Show the commit title?
+#    - graph (enum) [no|v2|v1]          : Show the commit graph? (main view only)
+#    - refs (bool)                      : Show branches, tags and remotes? (main view only)
+#    - overflow (boolint)               : Highlight overflows? Defaults to 50 when enabled.
 #
 #   date
 #    - display (enum) [no|default|relative|relative-compact|custom]
-#					: Show dates?
-#    - local (bool)			: Show local dates?
-#    - format (string)          	: Custom strftime(3) format
+#                                       : Show dates?
+#    - local (bool)                     : Show local dates?
+#    - format (string)                  : Custom strftime(3) format
 #                     Note: %Z is formatted as %z
-#    - width (int)			: Fixed width when nonzero
+#    - width (int)                      : Fixed width when nonzero
 #
 #   file-name
 #    - display (enum) [no|always|auto]  : Show file names?
-#    - width (int)			: Fixed width when nonzero
-#    - maxwidth (int)           	: Autosize limit
+#    - width (int)                      : Fixed width when nonzero
+#    - maxwidth (int)                   : Autosize limit
 #
 #   file-size
 #    - display (enum) [no|default|units]
-#					: Show file sizes?
-#    - width (int)			: Fixed width when nonzero
+#                                       : Show file sizes?
+#    - width (int)                      : Fixed width when nonzero
 #
 #   id
-#    - display (bool)           	: Show commit/tree ID?
-#    - width (int)			: Fixed width when nonzero
+#    - display (bool)                   : Show commit/tree ID?
+#    - width (int)                      : Fixed width when nonzero
 #
 #   line-number
-#    - display (bool)           	: Show line numbers?
-#    - interval (int)           	: Interval between line numbers; defaults to 5
-#    - width (int)			: Fixed width when nonzero
+#    - display (bool)                   : Show line numbers?
+#    - interval (int)                   : Interval between line numbers; defaults to 5
+#    - width (int)                      : Fixed width when nonzero
 #
 #   mode
-#    - display (bool)           	: Show file modes?
-#    - width (int)			: Fixed width when nonzero
+#    - display (bool)                   : Show file modes?
+#    - width (int)                      : Fixed width when nonzero
 #
 #   ref
-#    - display (bool)           	: Show ref names?
-#    - width (int)			: Fixed width when nonzero
-#    - maxwidth (int)			: Autosize limit
+#    - display (bool)                   : Show ref names?
+#    - width (int)                      : Fixed width when nonzero
+#    - maxwidth (int)                   : Autosize limit
 #
 #   status
 #    - display (enum) [no|short|long]   : Show status label?
 #
 #   text
-#    - display (bool)			: Show text?
+#    - display (bool)                   : Show text?
 #    - commit-title-overflow (boolint)  : Highlight overflow in log and diff view?
 #
 
@@ -283,18 +283,18 @@ bind generic    z       stop-loading            # Stop all loading views
 bind generic    v       show-version            # Show Tig version
 
 #
-			# Add/edit notes for the current commit used during a review:
+                        # Add/edit notes for the current commit used during a review:
 bind generic    T       !git notes edit %(commit)
-			# less-like page scrolling:
+                        # less-like page scrolling:
 bind generic    <Ctrl-f> scroll-page-down
 bind generic    <Ctrl-b> scroll-page-up
-			# Add verbose flag to git-commit:
+                        # Add verbose flag to git-commit:
 bind generic    C       !git commit -v
-			# Amend last commit:
+                        # Amend last commit:
 bind generic    +       !git commit --amend
-			# Open the commit on Github:
+                        # Open the commit on Github:
 bind generic    B       @sh -c "xdg-open 'https://'$(git remote -v | grep -Eo 'github.com[:/][^.]+' | head -1 | tr : /)'/commit/%(commit)'"
-			# Copy commit title to clipboard:
+                        # Copy commit title to clipboard:
 bind generic    9       !@sh -c "git show -s --format=%s %(commit) | xclip -selection c" # Linux
 # bind generic  9       !@sh -c "git show -s --format=%s %(commit) | pbcopy" # Mac
 # bind generic  9       !@sh -c "git show -s --format=%s %(commit) > /dev/clipboard" # Cygwin
@@ -313,21 +313,21 @@ bind status     M       status-merge            # Open git-mergetool(1)
 bind status     C       !git commit
 
 #
-			# Save all changed and untrackt files to stash
+                        # Save all changed and untrackt files to stash
 bind status     S       !?git stash save "%(prompt Enter stash name: )"
-			# Amend the last commit text
+                        # Amend the last commit text
 bind status     *       !?git commit --amend
-			# Push local committed changes to origin:
+                        # Push local committed changes to origin:
 bind status     P       !git push origin
-			# Intent to add (might be useful if you want to add-patch a newly created file): 
+                        # Intent to add (might be useful if you want to add-patch a newly created file): 
 bind status     N       !@git add -N %(file)
-			# Delete a file:
-bind status	D	!@?rm %(file)
-			# Patch the file under the cursor:
+                        # Delete a file:
+bind status     D       !@?rm %(file)
+                        # Patch the file under the cursor:
 bind status     P       !git add --patch %(file)
-			# Add selected file to .gitignore and open vim for additional changes:
+                        # Add selected file to .gitignore and open vim for additional changes:
 bind status     <Ctrl-r> !sh -c "echo %(file) >> .gitignore && vi .gitignore"
-			# Compare changed file in status view:
+                        # Compare changed file in status view:
 bind status     <F4>    !sh -c "git difftool -y \"$(git rev-parse --show-toplevel)/%(file)\""
 
 
@@ -347,7 +347,7 @@ bind diff       [       :toggle diff-context -1
 bind diff       ]       :toggle diff-context +1
 
 #
-			# Move in diff view with arrow keys: 
+                        # Move in diff view with arrow keys: 
 bind diff       <Up>    move-up
 bind diff       <Down>  move-down
 
@@ -358,13 +358,13 @@ bind main       F       :toggle commit-title-refs  # Toggle reference display (t
 bind main       C       ?git cherry-pick %(commit)
 
 #
-			# Interactive rebase:
+                        # Interactive rebase:
 bind main       B       !git rebase -i %(commit)
-			# Revert: 
+                        # Revert: 
 bind main       !       !git revert %(commit)
-			# Tag the selected commit:
+                        # Tag the selected commit:
 bind main       T       !@git tag "%(prompt Set tag name)" %(commit)
-			# Compare selected commit in log view (main view) with its parent:
+                        # Compare selected commit in log view (main view) with its parent:
 bind main       <F4>    !git difftool -d %(commit)^!
 
 
@@ -374,9 +374,9 @@ bind refs       !       ?git branch -D %(branch)
 bind refs       M       ?git merge %(branch)
 
 #
-			# Push local committed changes to origin:
+                        # Push local committed changes to origin:
 bind refs       P       !git push origin
-			# Create a new branch:
+                        # Create a new branch:
 bind refs       n       !@git branch "%(prompt Enter branch name: )"
 
 
