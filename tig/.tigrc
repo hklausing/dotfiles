@@ -319,7 +319,7 @@ bind status     S       !?git stash save "%(prompt Enter stash name: )"
 bind status     *       !?git commit --amend
                         # Push local committed changes to origin:
 bind status     P       !git push origin
-                        # Intent to add (might be useful if you want to add-patch a newly created file): 
+                        # Intent to add (might be useful if you want to add-patch a newly created file):
 bind status     N       !@git add -N %(file)
                         # Delete a file:
 bind status     D       !@?rm %(file)
@@ -347,7 +347,7 @@ bind diff       [       :toggle diff-context -1
 bind diff       ]       :toggle diff-context +1
 
 #
-                        # Move in diff view with arrow keys: 
+                        # Move in diff view with arrow keys:
 bind diff       <Up>    move-up
 bind diff       <Down>  move-down
 
@@ -360,7 +360,7 @@ bind main       C       ?git cherry-pick %(commit)
 #
                         # Interactive rebase:
 bind main       B       !git rebase -i %(commit)
-                        # Revert: 
+                        # Revert:
 bind main       !       !git revert %(commit)
                         # Tag the selected commit:
 bind main       T       !@git tag "%(prompt Set tag name)" %(commit)
