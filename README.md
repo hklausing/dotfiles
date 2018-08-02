@@ -24,13 +24,11 @@ Installation
 
 Follow next commands to update the system:
 
-~~~{.bash}
+```
 $ cd ~
 $ git clone git://github.com/hklausing/dotfiles.git .dotfiles
 $ cd .dotfiles
 $ ./install.sh
 $ source ~/.bashrc
-~~~~~~~~~~
-
-
+```
 
