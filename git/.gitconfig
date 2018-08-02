@@ -1,59 +1,109 @@
-[user]
-	email = h.klausing@gmx.de
-	name = Heiko Klausing
-[alias]
-	br = branch
-	ci = commit
-	co = checkout
-	cp = cherry-pick
-	d = difftool
-	dc = diff --cached
-	di = diff
-	diffr = "!f() { git diff \"$1\"^..\"$1\"; }; f"
-	dl = !git ll -1
-	dlc = diff --cached HEAD^
-	dr = "!f() { git diff \"$1\"^..\"$1\"; }; f"
-	f = !git ls-tree -r --name-only $(git rev-parse --abbrev-ref HEAD)
-	fl = log -u
-	gr = grep -Ii
-	grep = grep -Ii
-	la = !git config -l | grep alias | cut -c 7-
-	last = log -1 HEAD
-	lasttag = describe --tags --abbrev=0
-	lc = "!f() { git ll \"$1\"^..\"$1\"; }; f"
-	ld = log --pretty=format:\"%C(yellow)%h\\\\ %ad%Cred%d\\\\ %Creset%s%Cblue\\\\ [%cn]\" --decorate --date=relative
-	lds = log --pretty=format:\"%C(yellow)%h\\\\ %ad%Cred%d\\\\ %Creset%s%Cblue\\\\ [%cn]\" --decorate --date=short
-	le = log --oneline --decorate
-	lg = log --pretty=format:\"%C(yellow)%h%Cred%d\\\\ %Creset%s%Cblue\\\\ [%cn]\" --decorate
-	ll = log --pretty=format:\"%C(yellow)%h%Cred%d\\\\ %Creset%s%Cblue\\\\ [%cn]\" --decorate --numstat
-	lnc = log --pretty=format:\"%h\\\\ %s\\\\ [%cn]\"
-	logtree = log --graph --oneline --decorate --all
-	lp = log --pretty=format:\"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr %an)%Creset\" --abbrev-commit --date=relative
-	ls = log --pretty=format:\"%C(yellow)%h%Cred%d\\\\ %Creset%s%Cblue\\\\ [%cn]\" --decorate
-	lt = describe --tags --abbrev=0
-	ph = push
-	pl = pull
-	root = rev-parse --show-toplevel
-	sa = stash apply
-	sl = stash list
-	ss = stash save
-	sd = stash drop
-	st = status
-	s = status -b -s
-[color]
-	branch = auto
-	diff = auto
-	status = auto
-	ui = true
 [core]
-	editor = vim
+    editor = vim
 [push]
-	default = simple
+    default = simple
+[user]
+    name = Heiko Klausing
+    email = h.klausing@gmx.de
+[color]
+    status = auto
+    ui = true
+    branch = auto
+    diff = auto
+    interactive = true
+    showbranch = auto
+
+[alias]
+    s = status -b -s
+    st = status
+    ci = commit
+    co = checkout
+    br = branch
+    lt = describe --tags --abbrev=0
+    ls = log --pretty=format:\"%C(yellow)%h%Cred%d\\\\ %Creset%s%Cblue\\\\ [%cn]\" --decorate
+    ll = log --pretty=format:\"%C(yellow)%h%Cred%d\\\\ %Creset%s%Cblue\\\\ [%cn]\" --decorate --numstat
+    lds = log --pretty=format:\"%C(yellow)%h\\\\ %ad%Cred%d\\\\ %Creset%s%Cblue\\\\ [%cn]\" --decorate --date=short
+    ld = log --pretty=format:\"%C(yellow)%h\\\\ %ad%Cred%d\\\\ %Creset%s%Cblue\\\\ [%cn]\" --decorate --date=relative
+    le = log --oneline --decorate
+    lnc = log --pretty=format:\"%h\\\\ %s\\\\ [%cn]\"
+    fl = log -u
+    f = !git ls-tree -r --name-only $(git rev-parse --abbrev-ref HEAD)
+    dl = !git ll -1
+    grep = grep -Ii
+    gr = grep -Ii
+    la = !git config -l | grep alias | cut -c 7- | sort
+    sl = stash list
+    sa = stash apply
+    ss = stash save
+    sd = stash drop
+    logtree = log --graph --oneline --decorate --all
+    fa = ls-files
+    alias = !git config -l | grep alias | cut -c 7- | sort | uniq
+    cp = cherry-pick
+    dt = difftool
+    dc = diff --cached
+    di = diff
+    diffr = "!f() { git diff \"$1\"^..\"$1\"; }; f"
+    dlc = diff --cached HEAD^
+    dr = "!f() { git diff \"$1\"^..\"$1\"; }; f"
+    last = log -1 HEAD
+    lasttag = describe --tags --abbrev=0
+    lc = "!f() { git ll \"$1\"^..\"$1\"; }; f"
+    lg = log --pretty=format:\"%C(yellow)%h%Cred%d\\\\ %Creset%s%Cblue\\\\ [%cn]\" --decorate
+    lp = log --pretty=format:\"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr %an)%Creset\" --abbrev-commit --date=relative
+    ph = push
+    pl = pull
+    find = !sh -c \"git ls-files | grep ${1}\"
+    root = rev-parse --show-toplevel
+    #******************************************************
+    # Aliasese for diff handling
+    dt = difftool
+    dt3 = difftool -t kdiff3
+    dtk = difftool -t kompare
+    dtm = difftool -t meld
+    dtv = difftool -t vimdiff
+    dlc = diff --cached HEAD^
+    dhg = !sh -c 'git diff HEAD^ | kompare -'
+
+#**********************************************************
+# define default diff program for difftool
 [diff]
-	tool = meld
-[merge]
-	tool = meld
+    tool = meld
+
+# Definitions for diff tools
 [difftool]
-	prompt = false
+    prompt = false
+[difftool "icdiff"]
+    keepbackup = false
+    trustexitcode = false
+    cmd = icdiff --line-numbers --whole-file --color-map=separator:white,description:cyan $LOCAL $REMOTE
+
+#[difftool "kdiff3"]
+#   path = /usr/bin/kdiff3
+#   keepbackup = false
+#   trustexitcode = false
+
+# define default merge program for mergetool
+[merge]
+    tool = meld
+[mergetool]
+   prompt = false
+#[mergetool "kdiff3"]
+#   path = /usr/bin/kdiff3
+#   keepbackup = false
+#   trustexitcode = false
+
+#**********************************************************
+# Start help; format: man|info|web|html
+[help]
+    autocorrect = 1
+    format = html
+
+#**********************************************************
 [cola]
-	spellcheck = false
+    spellcheck = false
+
+
+# Following settings are for vimdiff
+# End of vimdiff settings
+
