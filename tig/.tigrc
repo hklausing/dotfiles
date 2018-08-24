@@ -390,6 +390,12 @@ bind main       !       !git revert %(commit)
 bind main       T       !@git tag "%(prompt Set tag name: )" %(commit)
                         # Compare selected commit in log view (main view) with its parent:
 bind main       <F4>    +git difftool --dir-diff %(commit)^!
+                        # Compare selected commit against to user defined reference commit ID
+bind main       <F5>    +git difftool --dir-diff %(commit)^.."%(prompt Input reference commit ID: )"
+                        # Show changed, deleted or added files between two commits
+bind main       <F6>    !git diff --name-status %(commit)^.."%(prompt Input reference commit ID: )"
+                        # Show changed, deleted or added files between two branches
+bind main       <F7>    !git diff --name-status %(branch).."%(prompt Input reference branch name: )"
 
 
 #======================================================
@@ -401,9 +407,9 @@ bind refs       M       ?git merge %(branch)
 
 #
                         # Push local committed changes to origin:
-bind refs       P       !git push origin
+bind refs       P       !git push origin %(branch)
                         # Pull from origin after conformation
-bind refs       L       !?git pull origin
+bind refs       L       !?git pull origin %(branch)
                         # Create a new branch:
 bind refs       B       @git branch "%(prompt Enter branch name: )"
                         # Create and checkout a new branch; specify custom prompt
