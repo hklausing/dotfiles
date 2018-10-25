@@ -287,8 +287,8 @@ bind generic    $       :toggle commit-title-overflow
 bind generic    %       :toggle file-filter
 
 # Misc
-bind generic    e       edit                    # Open in editor
-bind generic    E       @gvim %(file)                    # Open in editor
+                        # Open selected file in editor
+bind generic    e       !@sh -c "${GVISUAL:-${VISUAL:-${EDITOR:-vi}}} %(file)"
 bind generic    :       prompt                  # Open the prompt
 bind generic    <C-L>   screen-redraw           # Redraw the screen
 bind generic    z       stop-loading            # Stop all loading views
@@ -324,7 +324,7 @@ bind generic    9       !@sh -c "git show -s --format=%s %(commit) | xclip -sele
 bind status     u       status-update           # Stage/unstage changes in file
 bind status     !       status-revert           # Revert changes in file
 bind status     M       status-merge            # Open git-mergetool(1)
-# bind status   ???     :toggle status          # Show short or long status labels
+bind status     ?       :toggle status          # Show short or long status labels
 bind status     C       !git commit
 
 #
