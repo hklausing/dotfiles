@@ -144,7 +144,7 @@ BROWSER=/usr/bin/xdg-open
 export HISTCONTROL=ignoreboth
 
 # For setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-export HISTSIZE=5000
+export HISTSIZE=10000
 
 # A colon-separated list of patterns used to ignore saving on the history list.
 export HISTIGNORE="&:clear:exit:[bf]g:h *:ls:mount:umount:pwd:[ \t]"
@@ -163,7 +163,10 @@ export GPODDER_HOME=~/var/gPodder
 export EDITOR=vim
 
 # required for update of multisystem
-export VISUAL="vim"
+export VISUAL=vim
+
+# required for grafical editor
+export GVISUAL=gvim
 
 # load Fuzzy File Finder tool and realated helpers
 [[ -f ~/.bash_fzf ]] && source ~/.bash_fzf
