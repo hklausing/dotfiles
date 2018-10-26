@@ -1,9 +1,7 @@
 #
 # ~/.bash_aliases
 #
-# This is an automatic generated file via script system-setup.pl
-# Do changes to 10_bash.sdf, remove ~/.bash_aliases and execute
-# system-setup 10_bash.sdf
+# This script defines common shell environment values.
 #
 
 
@@ -221,7 +219,7 @@ extract () {
 #=== FuzzyFind Functions ===
 
 # for following functions fuzzy finder must be available
-if type fzf 1>$-; then
+if type -p fzf >/dev/null; then
 
     # fp - Find Process
     #   usage: fp
