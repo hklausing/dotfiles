@@ -37,11 +37,11 @@ function distribution()
     case ${dist,,} in
         manjarolinux)
             g_dist='manjaro'
-            g_list='A1 B1 B2 B3 B4 S1 G1 G2 P1 T1 T2'
+            g_list='A3 B1 B2 B3 B4 S1 G1 G2 P1 T1 T2'
             ;;
         raspbian)
             g_dist='debian'
-            g_list='A1 B2 S1 G1 G2 P1 T1 T2'
+            g_list='A2 B2 S1 G1 G2 P1 T1 T2'
             ;;
     esac
 }
@@ -229,7 +229,8 @@ makeLink 'S1' system/.inputrc         ~/.inputrc
 #
 # astyle
 #
-makeLink 'A1' astyle/.astylerc   ~/.astylerc
+makeLink 'A2' astyle/.astylerc.2x   ~/.astylerc
+makeLink 'A3' astyle/.astylerc.3x   ~/.astylerc
 
 
 

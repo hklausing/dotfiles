@@ -1,0 +1,693 @@
+# ~/.astylerc
+#
+# Based on astyle documentation.
+#
+
+########################################
+# Brace Style Options
+########################################
+
+#######
+# Use K&R formatting style
+# Style
+#
+# bsd:
+# int Foo(bool isBar)
+# {
+#     if(isBar)
+#     {
+#         bar();
+#         return 1;
+#     }
+#     else
+#         return 0;
+# }
+#
+# kr:
+# int Foo(bool isBar)
+# {
+#   if (isBar) {
+#     bar();
+#     return 1;
+#   } else
+#     return 0;
+# }
+#
+style=kr
+
+
+########################################
+# Tab Options
+########################################
+
+
+#######
+# Indent is used by using spaces.
+#
+indent=spaces=2
+
+
+########################################
+# Tab Options
+########################################
+
+
+######
+# the brace is always attached to a namespace statement:
+#
+# namespace FooName {
+# ...
+# }
+#
+attach-namespaces
+
+
+######
+# The brace is always attached to a class statement:
+#
+# class FooClass {
+# ...
+# };
+#
+#attach-classes
+
+
+######
+# all braces are attached to class and struct inline method definitions:
+#
+# class FooClass
+# {
+#     void Foo() {
+#     ...
+#     }
+# };
+#
+attach-inlines
+
+
+######
+# this option attaches braces to a braced extern "C" statement:
+#
+# #ifdef __cplusplus
+# extern "C" {
+# #endif
+# but function definitions are formatted according to the requested brace style:
+#
+# extern "C" EXPORT void STDCALL Foo()
+# {}
+#
+attach-extern-c
+
+
+######
+# Indent 'class' and 'struct' blocks so that the entire block is
+# indented. The struct blocks are indented only if an access
+# modifier, 'public:', 'protected:' or 'private:', is declared
+# somewhere in the struct. This option is effective for C++
+# files only.
+#
+# class Foo
+# {
+# public:
+#     Foo();
+#     virtual ~Foo();
+# };
+# becomes:
+#
+# class Foo
+# {
+#     public:
+#         Foo();
+#         virtual ~Foo();
+# };
+#
+indent-classes
+
+
+######
+# Indent 'class ' and 'struct' access modifiers, 'public:',
+# 'protected:' and 'private:', one half indent. The rest of the class
+# is not indented. This option is effective for C++ files only. If
+# used with indent‑classes this option will be ignored.
+#
+# class Foo
+# {
+# public:
+#     Foo();
+#     virtual ~Foo();
+# };
+# becomes:
+#
+# class Foo
+# {
+#   public:
+#     Foo();
+#     virtual ~Foo();
+# };
+#
+#indent-modifiers
+
+
+######
+# Indent 'switch' blocks so that the 'case X:' statements are
+# indented in the switch block. The entire case block is indented.
+#
+# switch (foo)
+# {
+# case 1:
+#     a += 1;
+#     break;
+#
+# case 2:
+# {
+#     a += 2;
+#     break;
+# }
+# }
+# becomes:
+#
+# switch (foo)
+# {
+#     case 1:
+#         a += 1;
+#         break;
+#
+#     case 2:
+#     {
+#         a += 2;
+#         break;
+#     }
+# }
+#
+indent-switches
+
+
+######
+# Add extra indentation to namespace blocks. This option has no
+# effect on Java files. It will also indent CORBA IDL module
+# statements.
+#
+# namespace foospace
+# {
+# class Foo
+# {
+#     public:
+#         Foo();
+#         virtual ~Foo();
+# };
+# }
+# becomes:
+#
+# namespace foospace
+# {
+#     class Foo
+#     {
+#         public:
+#             Foo();
+#             virtual ~Foo();
+#     };
+# }
+#
+indent-namespaces
+
+
+######
+# Set the continuation indent for a line that ends with an opening
+# paren '(' or an assignment '='. This includes function definitions
+# and declarations. It will also modify the previous
+# indent-after-paren option. The value for # indicates a number of
+# indents. The valid values are the integer values from 0 thru 4. If
+# this option is not used, the default value of 1 is used.
+#
+# isLongVariable =
+#     foo1 ||
+#     foo2;
+#
+# isLongFunction(
+#     bar1,
+#     bar2);
+# becomes (with indent-continuation=3):
+#
+# isLongVariable =
+#             foo1 ||
+#             foo2;
+#
+# isLongFunction(
+#             bar1,
+#             bar2);
+#
+indent-continuation=2
+
+
+######
+# Indent preprocessor blocks at brace level zero and immediately
+# within a namespace. There are restrictions on what will be
+# indented. Blocks within methods, classes, arrays, etc., will not be
+# indented. Blocks containing braces or multi-line define statements
+# will not be indented. Without this option the preprocessor block
+# is not indented.
+#
+# #ifdef _WIN32
+# #include <windows.h>
+# #ifndef NO_EXPORT
+# #define EXPORT
+# #endif
+# #endif
+# becomes:
+#
+# #ifdef _WIN32
+#     #include <windows.h>
+#     #ifndef NO_EXPORT
+#         #define EXPORT
+#     #endif
+# #endif
+#
+indent-preproc-block
+
+
+######
+# Indent multi-line preprocessor definitions ending with a backslash.
+# Should be used with --convert-tabs for proper results. Does a pretty
+# good job, but cannot perform miracles in obfuscated preprocessor
+# definitions. Without this option the preprocessor statements remain
+# unchanged.
+#
+# #define Is_Bar(arg,a,b) \
+# (Is_Foo((arg), (a)) \
+# || Is_Foo((arg), (b)))
+# becomes:
+#
+# #define Is_Bar(arg,a,b) \
+#     (Is_Foo((arg), (a)) \
+#      || Is_Foo((arg), (b)))
+#
+indent-preproc-define
+
+
+######
+# Indent C++ comments beginning in column one. By default C++
+# comments beginning in column one are assumed to be commented‑out
+# code and not indented. This option will allow the comments to be
+# indented with the code.
+#
+# void Foo()\n"
+# {
+# // comment
+#     if (isFoo)
+#         bar();
+# }
+# becomes:
+#
+# void Foo()\n"
+# {
+#     // comment
+#     if (isFoo)
+#         bar();
+# }
+#
+indent-col1-comments
+
+
+######
+# Set the minimal indent that is added when a header is built of
+# multiple lines. This indent helps to easily separate the header
+# from the command statements that follow. The value for # indicates
+# a number of indents and is a minimum value. The indent may be
+# greater to align with the data on the previous line.
+# The valid values are:
+# 0 - no minimal indent. The lines will be aligned with the paren on
+#     the preceding line.
+# 1 - indent at least one additional indent.
+# 2 - indent at least two additional indents.
+# 3 - indent at least one-half an additional indent. This is intended
+#     for large indents (e.g. 8).
+# The default value is 2, two additional indents.
+#
+# // default setting makes this non-braced code clear
+# if (a < b
+#         || c > d)
+#     foo++;
+#
+# // but creates an exaggerated indent in this braced code
+# if (a < b
+#         || c > d)
+# {
+#     foo++;
+# }
+# becomes (when setting --min-conditional-indent=0):
+#
+# // setting makes this non-braced code less clear
+# if (a < b
+#     || c > d)
+#     foo++;
+#
+# // but makes this braced code clearer
+# if (a < b
+#     || c > d)
+# {
+#     foo++;
+# }
+#
+min-conditional-indent=0
+
+
+
+########################################
+# Padding Options
+########################################
+
+#######
+# Pad empty lines around header blocks (e.g. 'if', 'for', 'while'...).
+#
+# isFoo = true;
+# if (isFoo) {
+#     bar();
+# } else {
+#     anotherBar();
+# }
+# isBar = false;
+#
+# becomes:
+#
+# isFoo = true;
+#
+# if (isFoo) {
+#     bar();
+# } else {
+#     anotherBar();
+# }
+#
+# isBar = false;
+#
+#break-blocks
+
+
+#######
+# Pad empty lines around header blocks (e.g. 'if', 'for', 'while'...).
+# Treat closing header blocks (e.g. 'else', 'catch') as
+# stand-alone blocks.
+#
+# isFoo = true;
+# if (isFoo) {
+#     bar();
+# } else {
+#     anotherBar();
+# }
+# isBar = false;
+# becomes:
+#
+# isFoo = true;
+#
+# if (isFoo) {
+#     bar();
+#
+# } else {
+#     anotherBar();
+# }
+#
+# isBar = false;
+#
+break-blocks=all
+
+
+#######
+# Insert space padding around operators. Any end of line comments will remain
+# in the original column, if possible. Note that there is no option to unpad.
+# Once padded, they stay padded.
+#
+# if (foo==2)
+#     a=bar((b-c)*a,d--);
+#
+# becomes:
+#
+# if (foo == 2)
+#      a = bar((b - c) * a, d--);
+#
+pad-oper
+
+
+#######
+# Insert space padding after paren headers only (e.g. 'if', 'for', 'while'...).
+# Any end of line comments will remain in the original column, if possible.
+# This can be used with unpad-paren to remove unwanted spaces.
+#
+# if(isFoo(a, b))
+#     bar(a, b);
+#
+# becomes:
+#
+# if (isFoo(a, b))
+#     bar(a, b);
+#
+#pad-header
+
+
+#######
+# Remove extra space padding around parens on the inside and outside.
+# Any end of line comments will remain in the original column, if
+# possible. This option can be used in combination with the paren
+# padding options pad‑paren, pad‑paren‑out, pad‑paren‑in, and
+# pad‑header above. Only padding that has not been requested by other
+# options will be removed.
+#
+# For example, if a source has parens padded on both the inside and
+# outside, and you want inside only. You need to use unpad-paren to
+# remove the outside padding, and pad‑paren‑in to retain the inside
+# padding. Using only pad‑paren‑in> would not remove the outside padding.
+#
+# if ( isFoo( ( a+2 ), b ) )
+#     bar ( a, b );
+# becomes (with no padding option requested):
+#
+# if(isFoo((a+2), b))
+#     bar(a, b);
+#
+unpad-paren
+
+
+#######
+# Delete empty lines within a function or method. Empty lines outside of
+# functions or methods are NOT deleted. If used with break-blocks or
+# break-blocks=all it will delete all lines EXCEPT the lines added by the
+# break-blocks options.
+#
+# void Foo()
+# {
+#
+#     foo1 = 1;
+#
+#     foo2 = 2;
+#
+# }
+#
+# becomes:
+#
+# void Foo()
+# {
+#     foo1 = 1;
+#     foo2 = 2;
+# }
+#
+##delete-empty-lines
+
+
+#######
+# Attach a pointer or reference operator (*, &, or ^) to either the
+# variable type (left) or variable name (right), or place it between
+# the type and name (middle). The spacing between the type and name
+# will be preserved, if possible. This option is for C/C++, C++/CLI,
+# and C# files. To format references separately, use the following
+# align-reference option.
+#
+# char* foo1;
+# char & foo2;
+# string ^s1;
+# becomes (with align-pointer=type):
+#
+# char* foo1;
+# char& foo2;
+# string^ s1;
+# char* foo1;
+# char & foo2;
+# string ^s1;
+# becomes (with align-pointer=middle):
+#
+# char * foo1;
+# char & foo2;
+# string ^ s1;
+# char* foo1;
+# char & foo2;
+# string ^s1;
+# becomes (with align-pointer=name):
+#
+# char *foo1;
+# char &foo2;
+# string ^s1;
+align-pointer=name
+
+
+#######
+# This option will align references separate from pointers. Pointers
+# are not changed by this option. If pointers and references are to
+# be aligned the same, use the previous align-pointer option. The
+# option align-reference=none will not change the reference alignment
+#. The other options are the same as for align-pointer. This option
+# is for C/C++, C++/CLI, and C# files.
+#
+# char &foo1;
+# becomes (with align-reference=type):
+#
+# char& foo1;
+# char& foo2;
+# becomes (with align-reference=middle):
+#
+# char & foo2;
+# char& foo3;
+# becomes (with align-reference=name):
+#
+# char &foo3;
+align-reference=name
+
+
+
+########################################
+# Formatting Options
+########################################
+
+
+#######
+# Break "else if" header combinations into separate lines. This
+# option has no effect if keep-one-line-statements is used, the
+# "else if" statements will remain as they are.
+#
+# If this option is NOT used, "else if" header combinations will be
+# placed on a single line.
+#
+# if (isFoo) {
+#     bar();
+# }
+# else if (isFoo1()) {
+#     bar1();
+# }
+# else if (isFoo2()) {
+#     bar2;
+# }
+# becomes:
+#
+# if (isFoo) {
+#     bar();
+# }
+# else
+#     if (isFoo1()) {
+#         bar1();
+#     }
+#     else
+#         if (isFoo2()) {
+#             bar2();
+#         }
+#
+#break-elseifs
+
+
+#######
+# Break one line headers (e.g. 'if', 'while', 'else', ...) from a
+# statement residing on the same line. If the statement is enclosed
+# in braces, the braces will be formatted according to the requested
+# brace style.
+#
+# A multi-statement line will NOT be broken if
+# keep-one-line-statements is requested. One line blocks will NOT be
+# broken if keep-one-line-blocks is requested and the header is
+# enclosed in the block.
+#
+# void Foo(bool isFoo)
+# {
+#     if (isFoo1) bar1();
+#
+#     if (isFoo2) { bar2(); }
+# }
+# becomes:
+#
+# void Foo(bool isFoo)
+# {
+#     if (isFoo1)
+#         bar1();
+#
+#     if (isFoo2) {
+#         bar2();
+#     }
+# }
+#
+break-one-line-headers
+
+
+#######
+# Converts tabs into spaces in the non-indentation part of the line.
+# The number of spaces inserted will maintain the spacing of the tab.
+# The current setting for spaces per tab is used. It may not produce
+# the expected results if convert-tabs is used when changing spaces
+# per tab. Tabs are not replaced within quotes.
+#
+convert-tabs
+
+
+#######
+# Closes whitespace between the ending angle brackets of template
+# definitions. Closing the ending angle brackets is now allowed by
+# the C++11 standard. Be sure your compiler supports this before
+# making the changes.
+#
+# Stack< int, List< int > > stack1;
+# becomes:
+#
+# Stack< int, List< int >> stack1;
+#
+close-templates
+
+
+# The option max‑code‑length will break a line if the code
+# exceeds # characters. The valid values are 50 thru 200. Lines
+# without logical conditionals will break on a logical conditional
+# (||, &&, ...), comma, paren, semicolon, or space.
+#
+# Some code will not be broken, such as comments, quotes, and
+# arrays. If used with keep‑one‑line‑blocks or add-one-line-braces
+# the blocks will NOT be broken. If used with
+# keep‑one‑line‑statements the statements will be broken at a
+# semicolon if the line goes over the maximum length. If there is
+# no available break point within the max code length, the line will
+# be broken at the first available break point after the max
+# code length.
+#
+# By default logical conditionals will be placed first in the new
+# line. The option break‑after‑logical will cause the logical
+# conditionals to be placed last on the previous line. This option
+# has no effect without max‑code‑length.
+#
+# if (thisVariable1 == thatVariable1 || thisVariable2 == thatVariable2 || thisVariable3 == thatVariable3)
+#     bar();
+# becomes:
+#
+# if (thisVariable1 == thatVariable1
+#         || thisVariable2 == thatVariable2
+#         || thisVariable3 == thatVariable3)
+#     bar();
+# becomes (with break‑after‑logical):
+#
+# if (thisVariable1 == thatVariable1 ||
+#         thisVariable2 == thatVariable2 ||
+#         thisVariable3 == thatVariable3)
+#     bar();
+#
+max-code-length=96
+break-after-logical
+
+
+
+
+
+
+
+
+
+
