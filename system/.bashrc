@@ -156,9 +156,6 @@ export HISTIGNORE="&:clear:exit:[bf]g:h *:ls:mount:umount:pwd:[ \t]"
 # Set up Git to automatically have Bash shell completion
 [[ -r /usr/share/git/completion/git-completion.bash ]] && . /usr/share/git/completion/git-completion.bash
 
-# Data location for gPodder
-export GPODDER_HOME=~/var/gPodder
-
 # Set default system editor for the current user.
 export EDITOR=vim
 
