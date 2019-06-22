@@ -137,7 +137,7 @@ colors() {
 	done
 }
 
-[[ -r /usr/share/bash-completion/bash_completion   ]] && . /usr/share/bash-completion/bash_completion
+[[ -r /usr/share/bash-completion/bash_completion ]] && . /usr/share/bash-completion/bash_completion
 BROWSER=/usr/bin/xdg-open
 # Don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
@@ -180,6 +180,6 @@ if [[ -d $HOME/.config/base16-shell/ ]]; then
   [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
 fi
 
-if type -p thefuck; then
-    eval $(thefuck --alias)
-fi
+#if type -p thefuck; then
+#    eval $(thefuck --alias)
+#fi
