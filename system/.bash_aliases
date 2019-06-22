@@ -95,29 +95,42 @@ alias ..2='cd ../..'
 alias ..3='cd ../../..'
 alias ..4='cd ../../../..'
 
-alias cdprj="_cd ~/prj $1"
 
 #######
 ###
 # Create and change to new directory
 
 mcd () {
+    # Create a directory and than change to it
+    # e.g. mcd ~/demodir
+    #      creates a ~/demodir directory and change to it
     [[ -z "$1" ]] && echo "usage: mcd <directory>" && return
     mkdir -p $1
     if [[ -d $1 ]]; then
         cd $1
     else
-        error "ERROR: directory $1 not found!"
+        error "ERROR: mcd: $1: directory not created!"
     fi
 }
 
 
-_cd() {
-    if [[ -d "$1/$2" ]]; then
-        cd "$1/$2"
+ccd() {
+    # concatenate names and change to that directory
+    # e.g. ccd /home heiko data
+    #      this will change directory to /home/heiko/data
+    #      equal to ccd ~ data
+    local targetdir=
+    for item in "$@"; do
+        if [[ -z ${targetdir} ]]; then
+            targetdir=${item}
+        else
+            targetdir=${targetdir}/${item}
+        fi
+    done
+    if [[ -d "${targetdir}" ]]; then
+        cd "${targetdir}"
     else
-        echo "Directory $1/$2 not found!"
-        ls $1
+        echo "ERROR: ccd: ${targetdir}: directory not found!"
     fi
 }
 
@@ -167,9 +180,10 @@ alias reboot='sudo systemctl reboot -i'
 ######
 ###
 # Switch to working directories
-alias cdcpp='_cd ~/prj/SW/cpp'
-alias cdperl='_cd ~/prj/SW/perl'
-alias cdmytools='cd ~/prj/SW/system/mytools'
+alias cdcpp='ccd ~/prj/SW/cpp'
+alias cdperl='ccd ~/prj/SW/perl'
+alias cdmytools='ccd ~/prj/SW/system/mytools'
+alias cdprj='ccd ~/prj'
 
 
 # Cleans doubles from the history file
