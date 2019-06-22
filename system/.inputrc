@@ -14,9 +14,13 @@
 #
 
 # First, include any system-wide bindings and variable assignments
-# from /etc/inputrc
+# from /etc/inputrc. Changes to that file content will be done in
+# this file
 $include /etc/inputrc
 
+# Key codes can be checked by 'sed -n l', and also check used bindings
+#  with 'bind -lP'.
+#
 ## Key: down
 #"\e[B": history-search-forward
 ## Key: up
@@ -25,9 +29,13 @@ $include /etc/inputrc
 # Key: page-down
 #"\C-n":history-search-forward
 "\e[6~": history-search-forward
+# Key: CTRL-page-down
+#"\e[6;5~": history-search-forward
 # Key: page-up
 #"\C-p":history-search-backward
 "\e[5~": history-search-backward
+# Key: CTRL-page-up
+#"\e[5;5~": history-search-backward
 
 # Reload this file by pressing the key combination: CTRL-x CTRL-r
 "\C-x\C-r": re-read-init-file
