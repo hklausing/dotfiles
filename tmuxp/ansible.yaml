@@ -1,0 +1,93 @@
+#
+# File:     ~/.tmuxp/ansible.yaml
+# Author:   Heiko Klausing
+# Created:  2019-11-20
+# Call:     tmuxp load ansible
+#
+
+session_name: icu
+
+########################################
+# Define windows
+########################################
+windows:
+
+
+# --------------------------------------
+# Window to execute ansible playbooks
+# --------------------------------------
+- window_name: ansible
+
+  focus: true
+
+  # define window layout: main-vertical, mail-horizontal, tiled
+  layout: tiled
+
+  shell_command_before:
+    - cd ~/prj/SW/ansible
+
+  # Definition of all panes in this window.
+  panes:
+
+    # First pane in first window.
+    - shell_command:
+      - pwd
+
+
+# --------------------------------------
+# Window for vim to edit playbooks, roles, ...
+# --------------------------------------
+- window_name: vim
+
+  # define window layout.
+  layout: main-horizontal
+
+  shell_command_before:
+    - cd ~/prj/SW/ansible
+
+  # Definition of all panes in this window.
+  panes:
+
+    # First pane in first window.
+    - shell_command:
+      - vim ./hosts
+
+
+# --------------------------------------
+# Window for midnight commander.
+# --------------------------------------
+- window_name: mc
+
+  # define window layout.
+  layout: main-horizontal
+
+  shell_command_before:
+    - cd ~/prj/SW/ansible
+
+  # Definition of all panes in this window.
+  panes:
+
+    # First pane in first window.
+    - shell_command:
+      - mc
+
+
+# --------------------------------------
+# Window for access to external hosts.
+# --------------------------------------
+- window_name: ssh
+
+  # define window layout.
+  layout: main-vertical
+
+  shell_command_before:
+    - cd ~/prj/SW/ansible
+
+  # Definition of all panes in this window.
+  panes:
+
+    # First pane in first window.
+    - shell_command:
+      - echo "defined for ssh host"
+
+# vim: ai ts=2 sw=2 et sts=2 ft=yaml
