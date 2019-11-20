@@ -54,7 +54,7 @@ fi
 
 # CAPS-LOCK key works as CTRL key
 case $(lsb_release -d) in
-    *Manjaro*) [[ -x /usr/bin/setxkbmap ]] && /usr/bin/setxkbmap -option 'ctrl:nocaps' ;;
+    *Manjaro*) [[ -x /usr/bin/setxkbmap ]] && [[ -n ${DISPLAY:x} ]] && /usr/bin/setxkbmap -option 'ctrl:nocaps' ;;
 esac
 
 
