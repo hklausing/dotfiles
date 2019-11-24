@@ -90,4 +90,4 @@ windows:
     - shell_command:
       - echo "defined for ssh host"
 
-# vim: ai ts=2 sw=2 et sts=2 ft=yaml
+# vim:tabstop=2:softtabstop=2:shiftwidth=2:expandtab:smarttab:filetype=yaml
