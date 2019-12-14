@@ -183,3 +183,12 @@ fi
 #if type -p thefuck; then
 #    eval $(thefuck --alias)
 #fi
+
+# fixing tilix issue
+if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
+        source /etc/profile.d/vte.sh
+fi
+
+# show system info
+#[[ -f /usr/bin/neofetch ]] && /usr/bin/neofetch
+
