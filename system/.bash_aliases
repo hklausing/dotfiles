@@ -42,6 +42,7 @@ else
 fi
 export PS1
 
+
 # Check if terminal connection is created via SSH. If variable
 # SESSION_TYPE is defined an SSH session is active.
 if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
@@ -52,10 +53,15 @@ else
   esac
 fi
 
-# CAPS-LOCK key works as CTRL key
-case $(lsb_release -d) in
-    *Manjaro*) [[ -x /usr/bin/setxkbmap ]] && /usr/bin/setxkbmap -option 'ctrl:nocaps' ;;
-esac
+## CAPS-LOCK key works as CTRL key
+#case $(lsb_release -d) in
+#    *Manjaro*) [[ -x /usr/bin/setxkbmap ]] && /usr/bin/setxkbmap -option 'ctrl:nocaps' ;;
+# --> Sitzungs- und Startverhalten:
+#   Name: Disable CAPS LOCK
+#   Beschreibung: Disable CAPS LOCK
+#   Befehl: setxkbmap -option caps:none
+#   Auslöser: on login
+#esac
 
 
 #######
@@ -188,9 +194,9 @@ alias cdprj='ccd ~/prj'
 
 # Cleans doubles from the history file
 alias history-clean-up="\
-/bin/cp ~/.bash_history ~/.bash_history.last;\
-${GREP} -vP \"^(h|history) -d \d+\" ~/.bash_history | ${TAC} | ${AWK} \"!x[\\\$0]++\" | ${TAC} > ~/.bash-history; \
-[ -f ~/.bash-history ] && mv ~/.bash-history ~/.bash_history\
+  /bin/cp ~/.bash_history ~/.bash_history.last;\
+  ${GREP} -vP \"^(h|history) -d \d+\" ~/.bash_history | ${TAC} | ${AWK} \"!x[\\\$0]++\" | ${TAC} > ~/.bash-history; \
+  [ -f ~/.bash-history ] && mv ~/.bash-history ~/.bash_history\
 "
 
 
@@ -201,7 +207,10 @@ color-tests() {
 }
 
 # Execute update & upgrade
-alias system-update='sudo apt-get update;sudo apt-get upgrade'
+case $(lsb_release -d) in
+    *Manjaro*) ;;
+    *Debian*)  alias system-update='sudo apt-get update;sudo apt-get upgrade' ;;
+esac
 
 
 # extract files. Ignore files with improper extensions.
