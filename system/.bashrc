@@ -161,11 +161,17 @@ else
         return
     fi
 
-    # ???
+    # allow root to execute GUI appliactions
     xhost +local:root > /dev/null 2>&1
 
-    # ???
+    # set auto completion for sudo
     complete -cf sudo
+
+    [[ -f ~/.bashrc_contents/bash_aliases ]] && source ~/.bashrc_contents/bash_aliases
+    [[ -f ~/.bashrc_contents/bash_functions ]] && source ~/.bashrc_contents/bash_functions
+    [[ -f ~/.bashrc_contents/bash_colors ]] && source ~/.bashrc_contents/bash_colors
+    [[ -f ~/.bashrc_contents/bash_lscolors ]] && source ~/.bashrc_contents/bash_lscolors
+    [[ -f ~/.bashrc_contents/bash_variables ]] && source ~/.bashrc_contents/bash_variables
 
     # Bash won't get SIGWINCH if another process is in the foreground.
     # Enable checkwinsize so that bash will check the terminal size when
@@ -246,30 +252,30 @@ else
     # better yaourt colors
     export YAOURT_COLORS="nb=1:pkg=1:ver=1;32:lver=1;45:installed=1;42:grp=1;34:od=1;41;5:votes=1;44:dsc=0:other=1;35"
 
-    #
-    # # ex - archive extractor
-    # # usage: ex <file>
-    ex ()
-    {
-      if [ -f $1 ] ; then
-        case $1 in
-          *.tar.bz2)   tar xjf $1   ;;
-          *.tar.gz)    tar xzf $1   ;;
-          *.bz2)       bunzip2 $1   ;;
-          *.rar)       unrar x $1   ;;
-          *.gz)        gunzip $1    ;;
-          *.tar)       tar xf $1    ;;
-          *.tbz2)      tar xjf $1   ;;
-          *.tgz)       tar xzf $1   ;;
-          *.zip)       unzip $1     ;;
-          *.Z)         uncompress $1;;
-          *.7z)        7z x $1      ;;
-          *)           echo "'$1' cannot be extracted via ex()" ;;
-        esac
-      else
-        echo "'$1' is not a valid file"
-      fi
-    }
+#   #
+#   # # ex - archive extractor
+#   # # usage: ex <file>
+#   ex ()
+#   {
+#     if [ -f $1 ] ; then
+#       case $1 in
+#         *.tar.bz2)   tar xjf $1   ;;
+#         *.tar.gz)    tar xzf $1   ;;
+#         *.bz2)       bunzip2 $1   ;;
+#         *.rar)       unrar x $1   ;;
+#         *.gz)        gunzip $1    ;;
+#         *.tar)       tar xf $1    ;;
+#         *.tbz2)      tar xjf $1   ;;
+#         *.tgz)       tar xzf $1   ;;
+#         *.zip)       unzip $1     ;;
+#         *.Z)         uncompress $1;;
+#         *.7z)        7z x $1      ;;
+#         *)           echo "'$1' cannot be extracted via ex()" ;;
+#       esac
+#     else
+#       echo "'$1' is not a valid file"
+#     fi
+#   }
 
     colors() {
         local fgc bgc vals seq0
@@ -290,9 +296,9 @@ else
                 vals=${vals%%;}
 
                 seq0="${vals:+\e[${vals}m}"
-                printf "  %-9s" "${seq0:-(default)}"
+                printf " %-9s" "${seq0:-(default)}"
                 printf " ${seq0}TEXT\e[m"
-                printf " \e[${vals:+${vals+$vals;}}1mBOLD\e[m"
+                printf "\e[${vals:+${vals+$vals;}}1mBOLD\e[m"
             done
             echo; echo
         done

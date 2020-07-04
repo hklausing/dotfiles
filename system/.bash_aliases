@@ -22,6 +22,7 @@ MYRED='\[\e[38;5;166m\]'
 MYCYAN='\[\e[38;5;30m\]'
 MYYELLOW='\[\e[38;5;227m\]'
 
+if [[ 1 == 0 ]]; then
 unset PS1
 if [[ "$TERM" = "dumb" ]]; then
     # bash was started from gvim; special handling for PS1
@@ -41,6 +42,49 @@ else
     PS1+="$NORM\n\$ "
 fi
 export PS1
+
+else
+
+#    # color definitions
+#    COL_GRAY='\[\e[38;5;238m\]'
+#    COL_BGRED='\[\e[7;103;31m\]'
+#
+#    # functional colors
+#    C_GRAY=${COL_GRAY}
+#    C_RCODE=${COL_BGRED}
+#
+#__prompt_command()
+#{
+##    echo 1
+#    local EXIT_CODE=$?
+#    local ps="${C_GRAY}"
+#    if [[ $EXIT_CODE -gt 0 ]]; then
+#        ps="${COL_BGRED} ${EXIT_CODE} ${NORM}${C_GRAY}"
+#    fi
+#    # Standard console handling
+#    #ps="$MYGRAY-(${MYBLUE}\$?${MYGRAY})"   # last return code
+#    ps+="-($MYGREEN\u@\h$MYGRAY)"          # user and host
+#    ps+="-($MYRED\t$MYGRAY)"               # current time
+#    ps+="-($MYYELLOW\w$MYGRAY)-"           # current directory
+#    if [[ -r /home/$USER/.git-prompt.sh ]]; then
+#        . /home/$USER/.git-prompt.sh
+#        export GIT_PS1_SHOWDIRTYSTATE=1
+#        # Define bash prompt for git branch information
+#        ps+="\$(__git_ps1 \"($MYCYAN%s$MYGRAY)-\")"   # current branch name if git path
+#    fi
+#    ps+="$NORM\n\$ "
+#    PS1=${ps}
+#}
+#
+##__prompt_command
+#export PROMPT_COMMAND=__prompt_command
+
+[[ -f ~/.bashrc_contents/bash_ps1 ]] && source ~/.bashrc_contents/bash_ps1
+
+fi
+
+
+
 
 
 # Check if terminal connection is created via SSH. If variable

@@ -44,7 +44,7 @@ style=kr
 #######
 # Indent is used by using spaces.
 #
-indent=spaces=2
+indent=spaces=4
 
 
 ########################################
@@ -644,27 +644,26 @@ unpad-paren
 # char & foo2;
 # string ^s1;
 # becomes (with align-pointer=type):
-#
-# char* foo1;
+## char* foo1;
 # char& foo2;
 # string^ s1;
+#
 # char* foo1;
 # char & foo2;
 # string ^s1;
 # becomes (with align-pointer=middle):
-#
-# char * foo1;
+## char * foo1;
 # char & foo2;
 # string ^ s1;
-# char* foo1;
+#
+#char* foo1;
 # char & foo2;
 # string ^s1;
 # becomes (with align-pointer=name):
-#
 # char *foo1;
 # char &foo2;
 # string ^s1;
-align-pointer=name
+align-pointer=type
 
 
 #######
@@ -687,7 +686,7 @@ align-pointer=name
 # becomes (with align-reference=name):
 #
 # char &foo3;
-align-reference=name
+align-reference=type
 
 
 
