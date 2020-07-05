@@ -167,11 +167,11 @@ else
     # set auto completion for sudo
     complete -cf sudo
 
-    [[ -f ~/.bashrc_contents/bash_aliases ]] && source ~/.bashrc_contents/bash_aliases
-    [[ -f ~/.bashrc_contents/bash_functions ]] && source ~/.bashrc_contents/bash_functions
-    [[ -f ~/.bashrc_contents/bash_colors ]] && source ~/.bashrc_contents/bash_colors
-    [[ -f ~/.bashrc_contents/bash_lscolors ]] && source ~/.bashrc_contents/bash_lscolors
-    [[ -f ~/.bashrc_contents/bash_variables ]] && source ~/.bashrc_contents/bash_variables
+    [[ -f ~/.bashrc_case/bash_aliases ]] && source ~/.bashrc_case/bash_aliases
+    [[ -f ~/.bashrc_case/bash_functions ]] && source ~/.bashrc_case/bash_functions
+    [[ -f ~/.bashrc_case/bash_colors ]] && source ~/.bashrc_case/bash_colors
+    [[ -f ~/.bashrc_case/bash_lscolors ]] && source ~/.bashrc_case/bash_lscolors
+    [[ -f ~/.bashrc_case/bash_variables ]] && source ~/.bashrc_case/bash_variables
 
     # Bash won't get SIGWINCH if another process is in the foreground.
     # Enable checkwinsize so that bash will check the terminal size when

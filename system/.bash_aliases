@@ -79,7 +79,7 @@ else
 ##__prompt_command
 #export PROMPT_COMMAND=__prompt_command
 
-[[ -f ~/.bashrc_contents/bash_ps1 ]] && source ~/.bashrc_contents/bash_ps1
+[[ -f ~/.bashrc_case/bash_ps1 ]] && source ~/.bashrc_case/bash_ps1
 
 fi
 

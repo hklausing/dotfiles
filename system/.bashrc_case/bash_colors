@@ -1,0 +1,78 @@
+#
+# ~/.bashrc_case/bash_colors
+#
+
+# Define system colors; use script 256-colors.sh
+#
+COL_NORM='\[\e[0m\]'                # back to default fore/background
+COL_GRAY='\[\e[38;5;238m\]'
+COL_BGRED='\[\e[7;103;31m\]'
+COL_BLUE='\[\e[38;5;31m\]'
+COL_GRAY='\[\e[38;5;238m\]'
+COL_BGRAY='\[\e[1;30m\]'
+COL_GREEN='\[\e[38;5;70m\]'
+COL_LGREEN='\[\e[1;32m\]'
+COL_RED='\[\e[38;5;166m\]'
+COL_CYAN='\[\e[38;5;30m\]'
+COL_YELLOW='\[\e[38;5;227m\]'
+COL_WHITE='\[\e[37m\]'
+
+
+# 8/16 Colors ...
+# ... foreground
+COL_F16Default='\e[39m'
+COL_F16Black='\e[30m'
+COL_F16Red='\e[31m'
+COL_F16Green='\e[32m'
+COL_F16Yellow='\e[33m'
+COL_F16Blue='\e[34m'
+COL_F16Magenta='\e[35m'
+COL_F16Cyan='\e[36m'
+COL_F16LightGray='\e[37m'
+COL_F16DarkGray='\e[90m'
+COL_F16LightRed='\e[91m'
+COL_F16LightGreen='\e[92m'
+COL_F16LightYellow='\e[93m'
+COL_F16LightBlue='\e[94m'
+COL_F16LightMagenta='\e[95m'
+COL_F16LightCyan='\e[96m'
+COL_F16White='\e[97m'
+# ... background
+COL_B16Default='\e[49m'
+COL_B16Black='\e[40m'
+COL_B16Red='\e[41m'
+COL_B16Green='\e[42m'
+COL_B16Yellow='\e[43m'
+COL_B16Blue='\e[44m'
+COL_B16Magenta='\e[45m'
+COL_B16Cyan='\e[46m'
+COL_B16LightGray='\e[47m'
+COL_B16DarkGray='\e[100m'
+COL_B16LightRed='\e[101m'
+COL_B16LightGreen='\e[102m'
+COL_B16LightYellow='\e[103m'
+COL_B16LightBlue='\e[104m'
+COL_B16LightMagenta='\e[105m'
+COL_B16LightCyan='\e[106m'
+COL_B16White='\e[107m'
+
+# Color test command
+#echo -e "Test: ${COL_F16Blue} Blue ${COL_F16Default} ${COL_B16Red} Red ${COL_B16Default}"
+
+# 88/256 Colors on foregound: \e[38;5;<ColorNumber>m
+# 88/256 Colors on background \e[48;5;<ColorNumber>m
+
+
+# Color code: \e[<Attribute>;<Background>;<ColorNumber>m
+# Attribute: 0 - norm
+#            1 - bold
+#            2 - dim
+#            4 - underlined
+#            5 - blink
+#            7 - reverse
+#            8 - hidden
+
+# reset all attributes: \e[0m
+
+
+# vim: set filetype=bash:

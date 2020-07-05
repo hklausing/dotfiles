@@ -1,0 +1,52 @@
+#
+# ~/.bashrc_case/bash_ps1
+#
+
+
+# functional color codes
+C_NORM=${COL_NORM}
+C_DIVIDER=${COL_GRAY}
+C_DIV=${COL_WHITE}                   # user host divider
+C_RCODE=${COL_BGRED}
+C_TIME=${COL_RED}
+C_DIR=${COL_YELLOW}
+C_USER=${COL_BLUE}
+C_HOST=${COL_LGREEN}
+
+
+if [[ -r /home/$USER/.git-prompt.sh ]]; then
+    . /home/$USER/.git-prompt.sh
+    export GIT_PS1_SHOWDIRTYSTATE=1
+fi
+
+__prompt_command()
+{
+    local EXIT_CODE=$?
+    local ps="${C_GRAY}"
+
+    if [[ $EXIT_CODE -ne 0 ]]; then
+        # return code is not 0, visualize it
+        ps="${COL_BGRED} ${EXIT_CODE} ${C_NORM}${C_DIVIDER}"
+    fi
+
+    ps+="(${C_USER}\u"                         # user
+    ps+="${C_DIV}@"                             # divider
+    ps+="${C_HOST}\h${C_NORM}${C_DIVIDER})"              # host
+    ps+="-(${C_TIME}\t${C_DIVIDER})"            # current time
+
+    # if git prompt tool was found than change the the prompt related to the found path
+    if [[ ${GIT_PS1_SHOWDIRTYSTATE} -eq 1 ]]; then
+        # Define bash prompt for git branch information
+        ps+="\$(__git_ps1 \"($COL_CYAN%s${C_DIVIDER})-\")"   # current branch name if git path
+    fi
+
+    ps+="\n"                                    # new line
+    ps+="(${C_DIR}\w${C_DIVIDER})-"              # current directory
+    ps+="${C_NORM}\n\$ "
+    PS1=${ps}
+}
+
+# redefine prompt_command to get customized version
+PROMPT_COMMAND=__prompt_command
+
+# vim: set filetype=bash:

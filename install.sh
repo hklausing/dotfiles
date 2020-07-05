@@ -221,6 +221,12 @@ makeLink 'B1' system/.bashrc          ~/.bashrc
 makeLink 'B2' system/.bash_aliases    ~/.bash_aliases
 makeLink 'B3' system/.bash_fzf        ~/.bash_fzf
 makeLink 'B4' system/.bash_profile    ~/.bash_profile
+makeLink 'B1' system/.bashrc_case/bash_aliases ~/.bashrc_case/bash_aliases
+makeLink 'B1' system/.bashrc_case/bash_functions ~/.bashrc_case/bash_functions
+makeLink 'B1' system/.bashrc_case/bash_colors ~/.bashrc_case/bash_colors
+makeLink 'B1' system/.bashrc_case/bash_lscolors ~/.bashrc_case/bash_lscolors
+makeLink 'B1' system/.bashrc_case/bash_variables ~/.bashrc_case/bash_variables
+makeLink 'B1' system/.bashrc_case/bash_ps1 ~/.bashrc_case/bash_ps1
 makeLink 'S1' system/.inputrc         ~/.inputrc
 
 
