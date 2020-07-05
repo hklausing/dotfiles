@@ -2,4 +2,124 @@
 # ~/.bashrc_case/bash_aliases
 #
 
+alias cp="cp -i"                          # confirm before overwriting something
+alias df='df -h'                          # human-readable sizes
+#alias free='free -m'                      # show sizes in MB
+alias np='nano -w PKGBUILD'
+alias more=less
+# export QT_SELECT=4
+
+
+
+
+
+
+
+############################################################
+# Define access to used tools
+AWK=$(which awk)
+GREP=$(which grep)
+TAC=$(which tac)
+
+
+## CAPS-LOCK key works as CTRL key
+#case $(lsb_release -d) in
+#    *Manjaro*) [[ -x /usr/bin/setxkbmap ]] && /usr/bin/setxkbmap -option 'ctrl:nocaps' ;;
+# --> Sitzungs- und Startverhalten:
+#   Name: Disable CAPS LOCK
+#   Beschreibung: Disable CAPS LOCK
+#   Befehl: setxkbmap -option caps:none
+#   Auslöser: on login
+#esac
+
+
+#######
+###
+# file list
+
+## Use trailing slashes
+alias ls='ls -h --color=auto'
+alias ls.='ls -a'
+
+## Use a long listing format ##
+alias ll='ls -lv'
+alias ll.='ls -lva'
+
+#######
+###
+# Directory change
+
+## get rid of command not found ##
+alias cd..='cd ..'
+
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ..2='cd ../..'
+alias ..3='cd ../../..'
+alias ..4='cd ../../../..'
+
+#######
+###
+# Helper
+
+# show history
+alias h='history'
+
+# search in history
+alias hf='history | grep -i'
+alias hF='history | grep'
+
+# search in process list
+alias pf='ps -ef | grep -v $$ | grep'
+
+# environment variables
+alias envf='env | grep -i'
+alias envF='env | grep'
+alias envs='env | sort'
+
+alias bashrc.='. ~/.bashrc'
+alias bashrc='gvim -p ~/.bashrc ~/.bashrc_case/*'
+
+# Set vim as default
+alias vi='vim -p'
+#alias vi='/usr/local/bin/vim -p'
+alias gvi='gvim -p'
+#alias gvi='/usr/local/bin/gvim -p'
+alias svi='sudo vi'
+alias vis='vim "+set si"'
+alias ed='editor'
+
+
+######
+###
+# systemd helper
+alias ss='sudo systemctl'
+alias poweroff='sudo systemctl poweroff -i'
+alias reboot='sudo systemctl reboot -i'
+
+
+######
+###
+# Switch to working directories
+alias cdcpp='ccd ~/prj/SW/cpp'
+alias cdperl='ccd ~/prj/SW/perl'
+alias cdmytools='ccd ~/prj/SW/system/mytools'
+alias cdprj='ccd ~/prj'
+
+# Execute system update & upgrade
+case ${DISTRIBUTION} in
+    *Manjaro) alias system-update='sudo pacman -Syyu';;
+    *Debian)  alias system-update='sudo apt-get update;sudo apt-get upgrade' ;;
+esac
+
+
+
+
+
+
+
+
+
+
+
 # vim: set filetype=bash:

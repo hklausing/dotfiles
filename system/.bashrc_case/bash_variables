@@ -2,4 +2,39 @@
 # ~/.bashrc_case/bash_variables
 #
 
+BROWSER=/usr/bin/xdg-open
+
+# Set default system editor for the current user.
+export EDITOR=vim
+
+# required for update of multisystem
+export VISUAL=vim
+
+# required for grafical editor
+export GVISUAL=gvim
+
+# Bash checks the window size after each command and, if necessary, updates the values of LINES and COLUMNS
+shopt -s checkwinsize
+
+# Expanded Aiases when the shell is interactive.
+shopt -s expand_aliases
+
+
+### History
+##
+
+# Enable history appending instead of overwriting.
+shopt -s histappend
+
+# Don't put duplicate lines or lines starting with space in the history.
+# See bash(1) for more options
+export HISTCONTROL=ignoreboth:erasedups
+
+# For setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+export HISTSIZE=10000
+
+# A colon-separated list of patterns used to ignore saving on the history list.
+export HISTIGNORE="&:clear:exit:[bf]g:h *:ls:mount:umount:pwd:[ \t]"
+
+
 # vim: set filetype=bash:

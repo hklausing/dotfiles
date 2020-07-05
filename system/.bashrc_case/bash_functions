@@ -3,28 +3,29 @@
 #
 
 
-# ex - archive extractor
-# usage: ex <file>
-ex ()
-{
-  if [ -f $1 ] ; then
-    case $1 in
-      *.tar.bz2)   tar xjf $1   ;;
-      *.tar.gz)    tar xzf $1   ;;
-      *.bz2)       bunzip2 $1   ;;
-      *.rar)       unrar x $1   ;;
-      *.gz)        gunzip $1    ;;
-      *.tar)       tar xf $1    ;;
-      *.tbz2)      tar xjf $1   ;;
-      *.tgz)       tar xzf $1   ;;
-      *.zip)       unzip $1     ;;
-      *.Z)         uncompress $1;;
-      *.7z)        7z x $1      ;;
-      *)           echo "'$1' cannot be extracted via ex()" ;;
-    esac
-  else
-    echo "'$1' is not a valid file"
-  fi
+# extract - extract files. Ignore files with improper extensions.
+# Usage: extract file.zip [file2.bz2 ..]
+extract () {
+    local x
+    # echo and execute
+    ee() {
+        echo "$@"
+        $1 "$2"
+    }
+    for x in "$@"; do
+        [[ -f $x ]] || continue
+        case "$x" in
+            *.tar.bz2 | *.tbz2 )    ee "tar xvjf" "$x"  ;;
+            *.tar.gz | *.tgz )      ee "tar xvzf" "$x"  ;;
+            *.bz2 )                 ee "bunzip2" "$x"   ;;
+            *.rar )                 ee "unrar x" "$x"   ;;
+            *.gz )                  ee "gunzip" "$x"    ;;
+            *.tar )                 ee "tar xvf" "$x"   ;;
+            *.zip )                 ee "unzip" "$x"     ;;
+            *.Z )                   ee "uncompress" "$x";;
+            *.7z )                  ee "7z x" "$x"      ;;
+        esac
+    done
 }
 
 
@@ -103,6 +104,76 @@ colors_and_formatting() {
     done
     echo # New line
   done
+}
+
+
+# color-tests - Terminal colors
+# usage: colors-test
+color-tests() {
+    echo ; echo -n "Current used colors (via tput): " ; tput colors ; echo
+    for x in 0 1 2 4 5 7 8; do
+        [[ $x -eq 0 ]] && echo "Attribute: norm ($x)"
+        [[ $x -eq 1 ]] && echo "Attribute: bold ($x)"
+        [[ $x -eq 2 ]] && echo "Attribute: dim ($x)"
+        [[ $x -eq 4 ]] && echo "Attribute: underlined ($x)"
+        [[ $x -eq 5 ]] && echo "Attribute: blink ($x)"
+        [[ $x -eq 6 ]] && echo "Attribute: blink ($x)"
+        [[ $x -eq 7 ]] && echo "Attribute: reverse ($x)"
+        [[ $x -eq 8 ]] && echo "Attribute: hidden ($x)"
+        for i in `seq 30 37`; do
+            for a in `seq 40 47`; do
+                echo -ne "\e[$x;$i;$a""m\\\e[$x;$i;$a""m\e[0;37;40m "
+            done
+            echo
+        done
+    done
+    echo ""
+}
+
+
+# history-cleanup - removes duoble entries from the history file
+# usage: history-cleanup
+history-cleanup() {
+    /bin/cp ~/.bash_history ~/.bash_history.$(date +%Y%m%dT%H%M%S)
+    grep -vP "^(h|history) -d \d+" ~/.bash_history | tac | awk "!x[\$0]++" | tac > ~/.bash-history
+    [[ -f ~/.bash-history ]] && mv ~/.bash-history ~/.bash_history
+}
+
+
+# mc - Create and change to new directory
+# usage: mcd DIRECTORY_NAME
+mcd () {
+    # Create a directory and than change to it
+    # e.g. mcd ~/demodir
+    #      creates a ~/demodir directory and change to it
+    [[ -z "$1" ]] && echo "usage: mcd <directory>" && return
+    mkdir -p $1
+    if [[ -d $1 ]]; then
+        cd $1
+    else
+        error "ERROR: mcd: $1: directory not created!"
+    fi
+}
+
+
+ccd() {
+    # concatenate names and change to that directory
+    # e.g. ccd /home heiko data
+    #      this will change directory to /home/heiko/data
+    #      equal to ccd ~ data
+    local targetdir=
+    for item in "$@"; do
+        if [[ -z ${targetdir} ]]; then
+            targetdir=${item}
+        else
+            targetdir=${targetdir}/${item}
+        fi
+    done
+    if [[ -d "${targetdir}" ]]; then
+        cd "${targetdir}"
+    else
+        echo "ERROR: ccd: ${targetdir}: directory not found!"
+    fi
 }
 
 # vim: set filetype=bash:
