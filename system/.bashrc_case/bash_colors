@@ -116,6 +116,27 @@ COL_B16LightMagenta='\e[105m'
 COL_B16LightCyan='\e[106m'
 COL_B16White='\e[107m'
 
+
+# 
+COL_Default='\[\e[0m'
+COL_DarkGray='\[\e[1;30m'
+COL_Red='\[\e[0;31m'
+COL_LightRed='\[\e[1;31m'
+COL_Green='\[\e[0;32m'
+COL_LightGreen='\[\e[1;32m'
+COL_Brown='\[\e[0;33m'
+COL_Yellow='\[\e[1;33m'
+COL_Blue='\[\e[0;34m'
+COL_LightBlue='\[\e[1;34m'
+COL_Cyan='\[\e[0;35m'
+COL_LightCyan='\[\e[1;35m'
+COL_Magenta='\[\e[0;36m'
+COL_LightMagenta='\[\e[1;36m'
+COL_LightGray='\[\e[0;37m'
+COL_White='\[\e[1;37m'
+COLBG_Off='\[\e[0m'
+COLBG_Red='\[\e[41;37m'
+
 # Color test command
 #echo -e "Test: ${COL_F16Blue} Blue ${COL_F16Default} ${COL_B16Red} Red ${COL_B16Default}"
 
