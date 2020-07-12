@@ -12,16 +12,97 @@
 #        ;;
 #esac
 
+function texteffects() {
+    echo "tput character test"
+    echo "==================="
+    echo
+
+    tput bold;  echo "tput bold  | This text has the bold attribute.";     tput sgr0
+
+    tput smul;  echo "tput smul  | This text is underlined (smul).";       tput rmul
+
+    # Most terminal emulators do not support blinking text (though xterm
+    # does) because blinking text is considered to be in bad taste ;-)
+    tput blink; echo "tput blink | This text is blinking (blink).";        tput sgr0
+
+    tput rev;   echo "tput rev   | This text has the reverse attribute";   tput sgr0
+
+    # Standout mode is reverse on many terminals, bold on others. 
+    tput smso;  echo "tput smso  | This text is in standout mode (smso)."; tput rmso
+
+    tput sgr0
+    echo
+}
+
+function base_colors(){
+    # tput_colors - Demonstrate color combinations.
+    echo "tput - 8 Foreground / Background colors"
+    for fg_color in {0..7}; do
+        set_foreground=$(tput setaf $fg_color)
+        for bg_color in {0..7}; do
+            set_background=$(tput setab $bg_color)
+            echo -n $set_background$set_foreground
+            printf ' F:%s B:%s ' $fg_color $bg_color
+        done
+        echo $(tput sgr0)
+    done
+}
+
+function colortest(){
+    local MAXPERLINE=32
+    echo "Full loop with tput setab"
+    local nextline=${MAXPERLINE}
+    for Cbg in {0..255}; do
+        echo -e "\e(B\e[m"
+        if [[ $Cbg -eq 0 ]]; then
+            echo "Color $Cbg"
+        else
+            echo -n "Color $Cbg"
+        fi
+        tput setab $Cbg
+        for Cfg in {0..255}; do
+            if [[ $nextline -eq 0 ]]; then
+                echo -e "\e(B\e[m"
+                nextline=${MAXPERLINE}
+            fi
+
+            tput setaf $Cfg
+            printf " %3s" $Cfg
+            ((nextline--))
+        done
+    done
+    tput sgr0
+    echo -e "\e(B\e[m"
+    echo
+
+    # standard colors
+    for C in {40..47}; do
+        echo -en "\e[${C}m$C "
+    done
+    echo -e "\e(B\e[m"
+    echo
+    # high intensity colors
+    for C in {100..107}; do
+        echo -en "\e[${C}m$C "
+    done
+    echo
+    # 256 colors
+    for C in {16..255}; do
+        echo -en "\e[48;5;${C}m$C "
+    done
+    echo -e "\e(B\e[m"
+}
 
 # functional color codes
-C_NORM=${COL_NORM}
-C_DIVIDER=${COL_GRAY}
+C_NORM=${COL_Norm}
+C_DIVIDER=${COL_F16DarkGray}
 C_DIV=${COL_WHITE}                   # user host divider
 C_RCODE=${COL_BGRED}
 C_TIME=${COL_RED}
 C_DIR=${COL_YELLOW}
 C_USER=${COL_BLUE}
 C_HOST=${COL_LGREEN}
+C_PROMT=${COL_Bold}${COL_F16White}
 
 
 if [[ -r /home/$USER/.git-prompt.sh ]]; then
@@ -29,19 +110,32 @@ if [[ -r /home/$USER/.git-prompt.sh ]]; then
     export GIT_PS1_SHOWDIRTYSTATE=1
 fi
 
-__prompt_command()
+__prompt_command_basic()
 {
+    # no color prompt string
+    local ps=''
+    ps+="\u"                            # user
+    ps+="@"                             # divider
+    ps+="\h"                            # host
+    ps+=" \w"                           # current directory
+    ps+=" \$ "                          # input prompt
+    PS1=${ps}
+}
+
+__prompt_command_1()
+{
+    # color prompt with recall issue (number will be kept in string)
     local EXIT_CODE=$?
-    local ps="${C_GRAY}"
+    local ps="${C_DIVIDER}"
 
     if [[ $EXIT_CODE -ne 0 ]]; then
         # return code is not 0, visualize it
         ps="${COL_BGRED} ${EXIT_CODE} ${C_NORM}${C_DIVIDER}"
     fi
 
-    ps+="(${C_USER}\u"                         # user
+    ps+="(${C_USER}\u"                          # user
     ps+="${C_DIV}@"                             # divider
-    ps+="${C_HOST}\h${C_NORM}${C_DIVIDER})"              # host
+    ps+="${C_HOST}\h${C_NORM}${C_DIVIDER})"     # host
     ps+="-(${C_TIME}\t${C_DIVIDER})"            # current time
 
     # if git prompt tool was found than change the the prompt related to the found path
@@ -51,12 +145,134 @@ __prompt_command()
     fi
 
     ps+="\n"                                    # new line
-    ps+="(${C_DIR}\w${C_DIVIDER})-"              # current directory
-    ps+="${C_NORM}\n\$ "
+    ps+="(${C_DIR}\w${C_DIVIDER})-"             # current directory
+    ps+="\n${C_NORM} \$ "
+    PS1=${ps}
+}
+
+__prompt_command_color()
+{
+    # exit code, user, host, git and current directory without colors
+    local EXIT_CODE=$?
+    local ps=""
+#   COL_Default='\[\033[0m\]'
+#   COL_DarkGray='\[\033[1;30m\]'
+#   COL_Red='\[\033[0;31m\]'
+#   COL_LightRed='\[\033[1;31m\]'
+#   COL_Green='\[\033[0;32m\]'
+#   COL_LightGreen='\[\033[1;32m\]'
+#   COL_Brown='\[\033[0;33m\]'
+#   COL_Yellow='\[\033[1;33m\]'
+#   COL_Blue='\[\033[0;34m\]'
+#   COL_LightBlue='\[\033[1;34m\]'
+#   COL_Cyan='\[\033[0;35m\]'
+#   COL_LightCyan='\[\033[1;35m\]'
+#   COL_Magenta='\[\033[0;36m\]'
+#   COL_LightMagenta='\[\033[1;36m\]'
+#   COL_LightGray='\[\033[0;37m\]'
+#   COL_White='\[\033[1;37m\]'
+#   COLBG_Off='\[\033[0m\]'
+#   COLBG_Red='\[\033[41;37m\]'
+#   COL_Default='\[\e[0m\]'
+#   COL_DarkGray='\[\e[1;30m\]'
+#   COL_Red='\[\e[0;31m\]'
+#   COL_LightRed='\[\e[1;31m\]'
+#   COL_Green='\[\e[0;32m\]'
+#   COL_LightGreen='\[\e[1;32m\]'
+#   COL_Brown='\[\e[0;33m\]'
+#   COL_Yellow='\[\e[1;33m\]'
+#   COL_Blue='\[\e[0;34m\]'
+#   COL_LightBlue='\[\e[1;34m\]'
+#   COL_Cyan='\[\e[0;35m\]'
+#   COL_LightCyan='\[\e[1;35m\]'
+#   COL_Magenta='\[\e[0;36m\]'
+#   COL_LightMagenta='\[\e[1;36m\]'
+#   COL_LightGray='\[\e[0;37m\]'
+#   COL_White='\[\e[1;37m\]'
+#   COLBG_Off='\[\e[0m\]'
+#   COLBG_Red='\[\e[41;37m\]'
+    COL_Default='\[\e[0m'
+    COL_DarkGray='\[\e[1;30m'
+    COL_Red='\[\e[0;31m'
+    COL_LightRed='\[\e[1;31m'
+    COL_Green='\[\e[0;32m'
+    COL_LightGreen='\[\e[1;32m'
+    COL_Brown='\[\e[0;33m'
+    COL_Yellow='\[\e[1;33m'
+    COL_Blue='\[\e[0;34m'
+    COL_LightBlue='\[\e[1;34m'
+    COL_Cyan='\[\e[0;35m'
+    COL_LightCyan='\[\e[1;35m'
+    COL_Magenta='\[\e[0;36m'
+    COL_LightMagenta='\[\e[1;36m'
+    COL_LightGray='\[\e[0;37m'
+    COL_White='\[\e[1;37m'
+    COLBG_Off='\[\e[0m'
+    COLBG_Red='\[\e[41;37m'
+
+    if [[ $EXIT_CODE -ne 0 ]]; then
+        # return code is not 0, visualize it
+        ps="${COLBG_Red} ${EXIT_CODE} ${COLBG_Off}"
+    fi
+
+    ps+="${COL_DarkGray}("                              # divider
+    ps+="${COL_Blue}\u"                            # user
+    ps+="${COL_DarkGray}@"                              # divider
+    ps+="${COL_Green}\h"                           # host
+    ps+="${COL_DarkGray})-("                            # divider
+    ps+="${COL_Brown}\t"                                # current time
+    ps+="${COL_DarkGray})"                              # divider
+
+    # if git prompt tool was found than change the the prompt related to the found path
+    if [[ ${GIT_PS1_SHOWDIRTYSTATE} -eq 1 ]]; then
+        # Define bash prompt for git branch information
+        ps+="-("
+        ps+="${COL_Magenta}\$(__git_ps1 \"%s\")"        # current branch name if git path
+        ps+="${COL_DarkGray})"
+    fi
+
+    ps+="\n"                                            # new line
+    ps+=" ${COL_Yellow}\w"                               # current directory
+    ps+="${COL_Default}\n"                              # new line
+    ps+="\$ ${COL_Default}"
+#   if [[ -r __vte_osc7 ]]; then
+        ps+="$(__vte_osc7)"
+#   fi
+    PS1=${ps}
+}
+
+__prompt_command_nocolor()
+{
+    # exit code, user, host, git and current directory without colors
+    local EXIT_CODE=$?
+    local ps=""
+
+    if [[ $EXIT_CODE -ne 0 ]]; then
+        # return code is not 0, visualize it
+        ps="{ ${EXIT_CODE} }"
+    fi
+
+    ps+="(\u"                          # user
+    ps+="@"                             # divider
+    ps+="\h)"     # host
+    ps+="-(\t)"            # current time
+
+    # if git prompt tool was found than change the the prompt related to the found path
+    if [[ ${GIT_PS1_SHOWDIRTYSTATE} -eq 1 ]]; then
+        # Define bash prompt for git branch information
+        ps+="\$(__git_ps1 \"(%s)-\")"   # current branch name if git path
+    fi
+
+    ps+="\n"                                    # new line
+    ps+="(\w)-"             # current directory
+    ps+="\n \$ "
     PS1=${ps}
 }
 
 # redefine prompt_command to get customized version
-PROMPT_COMMAND=__prompt_command
+#PROMPT_COMMAND=__prompt_command
+PROMPT_COMMAND=__prompt_command_color
+#PROMPT_COMMAND=__prompt_command_nocolor
+#PROMPT_COMMAND=__prompt_command_basic
 
 # vim: set filetype=bash:

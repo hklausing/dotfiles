@@ -51,11 +51,6 @@ fi
       [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
     fi
 
-# Fix for tilix
-if [[ -r /etc/profile.d/vte.sh ]] || [[ $TILIX_ID ]] || [[ $VTE_VERSION ]]; then
-    source /etc/profile.d/vte.sh
-fi
-
 ##################################
 #=== Set system related values ===
 [[ -r ~/.bash_system ]] && source ~/.bash_system

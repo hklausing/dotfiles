@@ -29,106 +29,107 @@ extract () {
 }
 
 
-# colors - print a color list
-# usage: colors
-colors() {
-    local fgc bgc vals seq0
-
-    printf "Color escapes are %s\n" '\e[${value};...;${value}m'
-    printf "Values 30..37 are \e[33mforeground colors\e[m\n"
-    printf "Values 40..47 are \e[43mbackground colors\e[m\n"
-    printf "Value  1 gives a  \e[1mbold-faced look\e[m\n\n"
-
-    # foreground colors
-    for fgc in {30..37}; do
-        # background colors
-        for bgc in {40..47}; do
-            fgc=${fgc#37} # white
-            bgc=${bgc#40} # black
-
-            vals="${fgc:+$fgc;}${bgc}"
-            vals=${vals%%;}
-
-            seq0="${vals:+\e[${vals}m}"
-            printf "  %-9s" "${seq0:-(default)}"
-            printf " ${seq0}TEXT\e[m"
-            printf " \e[${vals:+${vals+$vals;}}1mBOLD\e[m"
-        done
-        echo; echo
-    done
-}
-
-
-
-# colors_and_formatting - displays possible combinations of color attributs
-# usage: colors_and_formatting
-colors_and_formatting() {
-  # This program is free software. It comes without any warranty, to
-  # the extent permitted by applicable law. You can redistribute it
-  # and/or modify it under the terms of the Do What The Fuck You Want
-  # To Public License, Version 2, as published by Sam Hocevar. See
-  # http://sam.zoy.org/wtfpl/COPYING for more details.
-
-  #Background
-  for clbg in {40..47} {100..107} 49 ; do
-    #Foreground
-    for clfg in {30..37} {90..97} 39 ; do
-      #Formatting
-      for attr in 0 1 2 4 5 7 ; do
-        #Print the result
-        echo -en "\e[${attr};${clbg};${clfg}m ^[${attr};${clbg};${clfg}m \e[0m"
-      done
-      echo #Newline
-    done
-  done
-}
+## colors - print a color list
+## usage: colors
+#colors() {
+#    local fgc bgc vals seq0
+#
+#    printf "Color escapes are %s\n" '\e[${value};...;${value}m'
+#    printf "Values 30..37 are \e[33mforeground colors\e[m\n"
+#    printf "Values 40..47 are \e[43mbackground colors\e[m\n"
+#    printf "Value  1 gives a  \e[1mbold-faced look\e[m\n\n"
+#
+#    # foreground colors
+#    for fgc in {30..37}; do
+#        # background colors
+#        for bgc in {40..47}; do
+#            [[ $bgc -eq 44 ]] && echo
+#            fgc=${fgc#37} # white
+#            bgc=${bgc#40} # black
+#
+#            vals="${fgc:+$fgc;}${bgc}"
+#            vals=${vals%%;}
+#
+#            seq0="${vals:+\e[${vals}m}"
+#            printf "  %-9s" "${seq0:-(default)}"
+#            printf " ${seq0}TEXT\e[m"
+#            printf " \e[${vals:+${vals+$vals;}}1mBOLD\e[m"
+#        done
+#        echo; echo
+#    done
+#}
 
 
-# 256-colors - display the 256 colors available
-# usage: 256-colors
-256-colors() {
-  # This program is free software. It comes without any warranty, to
-  # the extent permitted by applicable law. You can redistribute it
-  # and/or modify it under the terms of the Do What The Fuck You Want
-  # To Public License, Version 2, as published by Sam Hocevar. See
-  # http://sam.zoy.org/wtfpl/COPYING for more details.
 
-  for fgbg in 38 48 ; do # Foreground / Background
-    for color in {0..255} ; do # Colors
-      # Display the color
-      printf "\e[${fgbg};5;%sm  %3s  \e[0m" $color $color
-      # Display 6 colors per lines
-      if [ $((($color + 1) % 6)) == 4 ] ; then
-        echo # New line
-      fi
-    done
-    echo # New line
-  done
-}
+## colors_and_formatting - displays possible combinations of color attributs
+## usage: colors_and_formatting
+#colors_and_formatting() {
+#  # This program is free software. It comes without any warranty, to
+#  # the extent permitted by applicable law. You can redistribute it
+#  # and/or modify it under the terms of the Do What The Fuck You Want
+#  # To Public License, Version 2, as published by Sam Hocevar. See
+#  # http://sam.zoy.org/wtfpl/COPYING for more details.
+#
+#  #Background
+#  for clbg in {40..47} {100..107} 49 ; do
+#    #Foreground
+#    for clfg in {30..37} {90..97} 39 ; do
+#      #Formatting
+#      for attr in 0 1 2 4 5 7 ; do
+#        #Print the result
+#        echo -en "\e[${attr};${clbg};${clfg}m ^[${attr};${clbg};${clfg}m \e[0m"
+#      done
+#      echo #Newline
+#    done
+#  done
+#}
 
 
-# color-tests - Terminal colors
-# usage: colors-test
-color-tests() {
-    echo ; echo -n "Current used colors (via tput): " ; tput colors ; echo
-    for x in 0 1 2 4 5 7 8; do
-        [[ $x -eq 0 ]] && echo "Attribute: norm ($x)"
-        [[ $x -eq 1 ]] && echo "Attribute: bold ($x)"
-        [[ $x -eq 2 ]] && echo "Attribute: dim ($x)"
-        [[ $x -eq 4 ]] && echo "Attribute: underlined ($x)"
-        [[ $x -eq 5 ]] && echo "Attribute: blink ($x)"
-        [[ $x -eq 6 ]] && echo "Attribute: blink ($x)"
-        [[ $x -eq 7 ]] && echo "Attribute: reverse ($x)"
-        [[ $x -eq 8 ]] && echo "Attribute: hidden ($x)"
-        for i in `seq 30 37`; do
-            for a in `seq 40 47`; do
-                echo -ne "\e[$x;$i;$a""m\\\e[$x;$i;$a""m\e[0;37;40m "
-            done
-            echo
-        done
-    done
-    echo ""
-}
+## colors-256 - display the 256 colors available
+## usage: colors-256
+#colors-256() {
+#  # This program is free software. It comes without any warranty, to
+#  # the extent permitted by applicable law. You can redistribute it
+#  # and/or modify it under the terms of the Do What The Fuck You Want
+#  # To Public License, Version 2, as published by Sam Hocevar. See
+#  # http://sam.zoy.org/wtfpl/COPYING for more details.
+#
+#  for fgbg in 38 48 ; do # Foreground / Background
+#    for color in {0..255} ; do # Colors
+#      # Display the color
+#      printf "\e[${fgbg};5;%sm  %3s  \e[0m" $color $color
+#      # Display 6 colors per lines
+#      if [ $((($color + 1) % 6)) == 4 ] ; then
+#        echo # New line
+#      fi
+#    done
+#    echo # New line
+#  done
+#}
+
+
+## color-tests - Terminal colors
+## usage: colors-test
+#color-tests() {
+#    echo ; echo -n "Current used colors (via tput): " ; tput colors ; echo
+#    for x in 0 1 2 4 5 7 8; do
+#        [[ $x -eq 0 ]] && echo "Attribute: norm ($x)"
+#        [[ $x -eq 1 ]] && echo "Attribute: bold ($x)"
+#        [[ $x -eq 2 ]] && echo "Attribute: dim ($x)"
+#        [[ $x -eq 4 ]] && echo "Attribute: underlined ($x)"
+#        [[ $x -eq 5 ]] && echo "Attribute: blink ($x)"
+#        [[ $x -eq 6 ]] && echo "Attribute: blink ($x)"
+#        [[ $x -eq 7 ]] && echo "Attribute: reverse ($x)"
+#        [[ $x -eq 8 ]] && echo "Attribute: hidden ($x)"
+#        for i in `seq 30 37`; do
+#            for a in `seq 40 47`; do
+#                echo -ne "\e[$x;$i;$a""m\\\e[$x;$i;$a""m\e[0;37;40m "
+#            done
+#            echo
+#        done
+#    done
+#    echo ""
+#}
 
 
 # history-cleanup - removes duoble entries from the history file
