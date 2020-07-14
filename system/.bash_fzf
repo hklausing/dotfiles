@@ -8,44 +8,44 @@
 # Most of the functions are taken from https://github.com/junegunn/fzf/wiki/examples
 #
 
-skip=0
-inst_package=0
-
-# Check if fzf package is installed or a self compiled version is used
-fzf_path=$(type -p fzf)
-
-# Test if Fuzzy Finder is installed
-if [[ -z ${fzf_path} ]]; then
-
-    fzf_path=/home/$USER/.fzf/bin
-    if [[ ! -f ${fzf_path}/fzf ]]; then
-
-        echo "fzf - FuZzy Finder not found."
-        skip=1
-
-    fi
-fi
-
-if [[ ${fzf_path} =~ usr ]]; then
-
-    inst_package=1
-
-else
-
-    # If fzf is self compiled and existing than add directory to PATH
-    # ---------
-    if [[ ! "$PATH" == *${fzf_path}* ]]; then
-      export PATH="$PATH:${fzf_path}"
-    fi
-
-fi
-
-
-# Test if Fuzzy Finder TMUX is installed
-if [[ -z "$(type -p fzf-tmux)" ]]; then
-    echo "fzf-tmux - FuZzy Finder TMUX not found."
-    skip=1
-fi
+#hk skip=0
+#hk inst_package=0
+#hk
+#hk # Check if fzf package is installed or a self compiled version is used
+#hk fzf_path=$(type -p fzf)
+#hk
+#hk # Test if Fuzzy Finder is installed
+#hk if [[ -z ${fzf_path} ]]; then
+#hk
+#hk     fzf_path=/home/$USER/.fzf/bin
+#hk     if [[ ! -f ${fzf_path}/fzf ]]; then
+#hk
+#hk         echo "fzf - FuZzy Finder not found."
+#hk         skip=1
+#hk
+#hk     fi
+#hk fi
+#hk
+#hk if [[ ${fzf_path} =~ usr ]]; then
+#hk
+#hk     inst_package=1
+#hk
+#hk else
+#hk
+#hk     # If fzf is self compiled and existing than add directory to PATH
+#hk     # ---------
+#hk     if [[ ! "$PATH" == *${fzf_path}* ]]; then
+#hk       export PATH="$PATH:${fzf_path}"
+#hk     fi
+#hk
+#hk fi
+#hk
+#hk
+#hk # Test if Fuzzy Finder TMUX is installed
+#hk if [[ -z "$(type -p fzf-tmux)" ]]; then
+#hk     echo "fzf-tmux - FuZzy Finder TMUX not found."
+#hk     skip=1
+#hk fi
 
 # Setup fzf
 
@@ -53,295 +53,295 @@ fi
 #
 # Skip following commands if Fuzzy File Finder is not installed
 #
-if [[ $skip -eq 0 ]]; then
-
-    if [[ $inst_package -eq 1 ]]; then
-
-        if [[ -f /usr/share/fzf/completion.bash ]]; then
-            source /usr/share/fzf/completion.bash 2> /dev/null
-        fi
-
-        if [[ -f /usr/share/fzf/completion.bash ]]; then
-            source /usr/share/fzf/key-bindings.bash 2> /dev/null
-        fi
-
-    else
-
-        # Man path
-        # --------
-        if [[ ! "$MANPATH" == */home/$USER/.fzf/man* && -d "/home/USER/.fzf/man" ]]; then
-          export MANPATH="$MANPATH:/home/$USER/.fzf/man"
-        fi
-
-        # Auto-completion
-        # ---------------
-        [[ $- == *i* ]] && source "/home/$USER/.fzf/shell/completion.bash" 2> /dev/null
-
-        # Key bindings
-        # ------------
-        key_bindings=/usr/share/fzf/key-bindings.bash
-        if [[ ! -f ${key_bindings} ]]; then
-            key_binding=/home/$USER/.fzf/shell/key-bindings.bash
-        fi
-        source "/home/$USER/.fzf/shell/key-bindings.bash"
-
-    fi
-
-
-    #----------------------------
-    # Opening files
-    #
-
-    # fze [FUZZY PATTERN] - Open the selected file(s) with the default editor
-    #   - Bypass fuzzy finder if there's only one match (--select-1)
-    #   - Exit if there's no match (--exit-0)
-    fze() {
-      local files
-      IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0))
-      [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
-    }
-
-
-
-    #----------------------------
-    # Changing directory
-    #
-
-    # fzgd - FuZzy Get Directory, print selected directory
-    fzgd() {
-      local dir
-      dir=$(find ${1:-.} -path '*/\.*' -prune \
-                      -o -type d -print 2> /dev/null | fzf +m) &&
-      echo -n "$dir"
-    }
-
-    # fzd - FuZzy Directory, cd to selected directory
-    fzd() {
-      local dir
-      dir=$(find ${1:-.} -path '*/\.*' -prune \
-                      -o -type d -print 2> /dev/null | fzf +m) &&
-      cd "$dir"
-    }
-
-    # fzda - FuZzy Directory Also dot, including hidden directories
-    fzda() {
-      local dir
-      dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m) && cd "$dir"
-    }
-
-    # fzdr - FuZzy Directory Recursive, cd to selected parent directory
-    fzdr() {
-      local declare dirs=()
-      get_parent_dirs() {
-        if [[ -d "${1}" ]]; then dirs+=("$1"); else return; fi
-        if [[ "${1}" == '/' ]]; then
-          for _dir in "${dirs[@]}"; do echo $_dir; done
-        else
-          get_parent_dirs $(dirname "$1")
-        fi
-      }
-      local DIR=$(get_parent_dirs $(realpath "${1:-$PWD}") | fzf-tmux --tac)
-      cd "$DIR"
-    }
-
-    # Suggested by @harelba and @dimonomid:
-
-    # fzcdf - FuZzy Change Directory to selected File
-    fzcdf() {
-       local file
-       local dir
-       file=$(fzf +m -q "$1") && dir=$(dirname "$file") && cd "$dir"
-    }
-
-
-    #----------------------------
-    # Command history
-    #
-
-    # fzh - Fuzzy History
-    fzh() {
-      eval $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//')
-    }
-
-
-
-    #----------------------------
-    # Processes
-    #
-
-    # fzkill - FuZzy KILL process
-    fzkill() {
-      local pid
-      pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
-
-      if [ "x$pid" != "x" ]
-      then
-        echo $pid | xargs kill -${1:-9}
-      fi
-    }
-
-
-    #----------------------------
-    # Git
-    #
-
-    # fzbr - FuZzy checkout git Branch (including remote branches)
-    fzbr() {
-      local branches branch
-      branches=$(git branch --all | grep -v HEAD) &&
-      branch=$(echo "$branches" |
-               fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
-      git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
-    }
-
-
-    # fzco - FuZzy Checkout git Branch/Tag
-    fzcbt() {
-      local tags branches target
-      tags=$(
-        git tag | awk '{print "\x1b[31;1mtag\x1b[m\t" $1}') || return
-      branches=$(
-        git branch --all | grep -v HEAD             |
-        sed "s/.* //"    | sed "s#remotes/[^/]*/##" |
-        sort -u          | awk '{print "\x1b[34;1mbranch\x1b[m\t" $1}') || return
-      target=$(
-        (echo "$tags"; echo "$branches") |
-        fzf-tmux -l30 -- --no-hscroll --ansi +m -d "\t" -n 2) || return
-      git checkout $(echo "$target" | awk '{print $2}')
-    }
-
-
-    # fzshow - FuZzy SHOW git commit browser
-    fzshow() {
-      git log --graph --color=always \
-          --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
-      fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
-          --bind "ctrl-m:execute:
-                    (grep -o '[a-f0-9]\{7\}' | head -1 |
-                    xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
-                    {}
-    FZF-EOF"
-    }
-
-
-    # fzcs - FuZzy get git Commit Sha values
-    # example usage: git rebase -i `fzcs`
-    fzcs() {
-      local commits commit
-      commits=$(git log --color=always --pretty=oneline --abbrev-commit --reverse) &&
-      commit=$(echo "$commits" | fzf --tac +s +m -e --ansi --reverse) &&
-      echo -n $(echo "$commit" | sed "s/ .*//")
-    }
-
-    # fzstash - FuZzy easier way to deal with sTASHes
-    # type fstash to get a list of your stashes
-    # enter shows you the contents of the stash
-    # ctrl-d shows a diff of the stash against your current HEAD
-    # ctrl-b checks the stash out as a branch, for easier merging
-    fzstash() {
-      local out q k sha
-      while out=$(
-        git stash list --pretty="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%gs" |
-        fzf --ansi --no-sort --query="$q" --print-query \
-            --expect=ctrl-d,ctrl-b);
-      do
-        mapfile -t out <<< "$out"
-        q="${out[0]}"
-        k="${out[1]}"
-        sha="${out[-1]}"
-        sha="${sha%% *}"
-        [[ -z "$sha" ]] && continue
-        if [[ "$k" == 'ctrl-d' ]]; then
-          git diff $sha
-        elif [[ "$k" == 'ctrl-b' ]]; then
-          git stash branch "stash-$sha" $sha
-          break;
-        else
-          git stash show -p $sha
-        fi
-      done
-    }
-
-
-    #----------------------------
-    # Tags
-    #
-
-    # fztags - FuZzy search cTAGS
-    fztags() {
-      local line
-      [ -e tags ] &&
-      line=$(
-        awk 'BEGIN { FS="\t" } !/^!/ {print toupper($4)"\t"$1"\t"$2"\t"$3}' tags |
-        cut -c1-80 | fzf --nth=1,2
-      ) && ${EDITOR:-vim} $(cut -f3 <<< "$line") -c "set nocst" \
-                                          -c "silent tag $(cut -f2 <<< "$line")"
-    }
-
-
-    #----------------------------
-    # vim
-    #
-
-    # Inspired by v. Opens files in ~/.viminfo
-
-    # fzv - FuZzy open files stored in ~/.viminfo with Vim
-    fzv() {
-      local files
-      files=$(grep '^>' ~/.viminfo | cut -c3- |
-              while read line; do
-                [ -f "${line/\~/$HOME}" ] && echo "$line"
-              done | fzf-tmux -d -m -q "$*" -1) && vim ${files//\~/$HOME}
-    }
-
-    # fzgv - FuZzy open files stored in ~/.viminfo with GVim
-    fzgv() {
-      local files
-      files=$(grep '^>' ~/.viminfo | cut -c3- |
-              while read line; do
-                [ -f "${line/\~/$HOME}" ] && echo "$line"
-              done | fzf-tmux -d -m -q "$*" -1) && vim ${files//\~/$HOME}
-    }
-
-
-    #----------------------------
-    # FZ-Helper overview
-    fzhelp() {
-        cat << "EOT"
-fz-Helper Functions
-
-** Directory **
-- fzcdf         FuZzy Change Directory to selected File
-- fzd           FuZzy Directory, cd to selected directory
-- fzda          FuZzy Directory Also dot, including hidden directories
-- fzdr          FuZzy Directory Recursive, cd to selected parent directory
-- fze [PATTERN] Open the selected file(s) with the default editor
-- fzgd          FuZzy Get Directory, print selected directory
-
-** History **
-- fzh           Fuzzy History
-
-** Kill Process **
-- fzkill        FuZzy KILL process
-
-** Git **
-- fzbr          FuZzy checkout git Branch (including remote branches)
-- fzco          FuZzy Checkout git Branch/Tag
-- fzcs          FuZzy get git Commit Sha values; example usage: git rebase -i `fzcs`
-- fzshow        FuZzy SHOW git commit browser
-- fzstash       FuZzy easier way to deal with sTASHes
-
-** Ctags **
-- fztags        FuZzy search cTAGS
-
-** vim/gim **
-- fzgv          FuZzy open files stored in ~/.viminfo with GVim
-- fzv           FuZzy open files stored in ~/.viminfo with Vim
-EOT
-    }
-
-fi      # if [[ $skip -eq 0 ]]; then
-
+#hk if [[ $skip -eq 0 ]]; then
+#hk
+#hk     if [[ $inst_package -eq 1 ]]; then
+#hk
+#hk         if [[ -f /usr/share/fzf/completion.bash ]]; then
+#hk             source /usr/share/fzf/completion.bash 2> /dev/null
+#hk         fi
+#hk
+#hk         if [[ -f /usr/share/fzf/completion.bash ]]; then
+#hk             source /usr/share/fzf/key-bindings.bash 2> /dev/null
+#hk         fi
+#hk
+#hk     else
+#hk
+#hk         # Man path
+#hk         # --------
+#hk         if [[ ! "$MANPATH" == */home/$USER/.fzf/man* && -d "/home/USER/.fzf/man" ]]; then
+#hk           export MANPATH="$MANPATH:/home/$USER/.fzf/man"
+#hk         fi
+#hk
+#hk         # Auto-completion
+#hk         # ---------------
+#hk         [[ $- == *i* ]] && source "/home/$USER/.fzf/shell/completion.bash" 2> /dev/null
+#hk
+#hk         # Key bindings
+#hk         # ------------
+#hk         key_bindings=/usr/share/fzf/key-bindings.bash
+#hk         if [[ ! -f ${key_bindings} ]]; then
+#hk             key_binding=/home/$USER/.fzf/shell/key-bindings.bash
+#hk         fi
+#hk         source "/home/$USER/.fzf/shell/key-bindings.bash"
+#hk
+#hk     fi
+#hk
+#hk
+#hk     #----------------------------
+#hk     # Opening files
+#hk     #
+#hk
+#hk     # fze [FUZZY PATTERN] - Open the selected file(s) with the default editor
+#hk     #   - Bypass fuzzy finder if there's only one match (--select-1)
+#hk     #   - Exit if there's no match (--exit-0)
+#hk     fze() {
+#hk       local files
+#hk       IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0))
+#hk       [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
+#hk     }
+#hk
+#hk
+#hk
+#hk    #----------------------------
+#hk    # Changing directory
+#hk    #
+#hk
+#hk    # fzgd - FuZzy Get Directory, print selected directory
+#hk    fzgd() {
+#hk      local dir
+#hk      dir=$(find ${1:-.} -path '*/\.*' -prune \
+#hk                      -o -type d -print 2> /dev/null | fzf +m) &&
+#hk      echo -n "$dir"
+#hk    }
+#hk
+#hk    # fzd - FuZzy Directory, cd to selected directory
+#hk    fzd() {
+#hk      local dir
+#hk      dir=$(find ${1:-.} -path '*/\.*' -prune \
+#hk                      -o -type d -print 2> /dev/null | fzf +m) &&
+#hk      cd "$dir"
+#hk    }
+#hk
+#hk    # fzda - FuZzy Directory Also dot, including hidden directories
+#hk    fzda() {
+#hk      local dir
+#hk      dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m) && cd "$dir"
+#hk    }
+#hk
+#hk    # fzdr - FuZzy Directory Recursive, cd to selected parent directory
+#hk    fzdr() {
+#hk      local declare dirs=()
+#hk      get_parent_dirs() {
+#hk        if [[ -d "${1}" ]]; then dirs+=("$1"); else return; fi
+#hk        if [[ "${1}" == '/' ]]; then
+#hk          for _dir in "${dirs[@]}"; do echo $_dir; done
+#hk        else
+#hk          get_parent_dirs $(dirname "$1")
+#hk        fi
+#hk      }
+#hk      local DIR=$(get_parent_dirs $(realpath "${1:-$PWD}") | fzf-tmux --tac)
+#hk      cd "$DIR"
+#hk    }
+#hk
+#hk    # Suggested by @harelba and @dimonomid:
+#hk
+#hk    # fzcdf - FuZzy Change Directory to selected File
+#hk    fzcdf() {
+#hk       local file
+#hk       local dir
+#hk       file=$(fzf +m -q "$1") && dir=$(dirname "$file") && cd "$dir"
+#hk    }
+#hk
+#hk
+#hk     #----------------------------
+#hk     # Command history
+#hk     #
+#hk
+#hk     # fzh - Fuzzy History
+#hk     fzh() {
+#hk       eval $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//')
+#hk     }
+#hk
+#hk
+#hk
+#hk     #----------------------------
+#hk     # Processes
+#hk     #
+#hk
+#hk     # fzkill - FuZzy KILL process
+#hk     fzkill() {
+#hk       local pid
+#hk       pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
+#hk
+#hk       if [ "x$pid" != "x" ]
+#hk       then
+#hk         echo $pid | xargs kill -${1:-9}
+#hk       fi
+#hk     }
+#hk
+#hk
+#hk    #----------------------------
+#hk    # Git
+#hk    #
+#hk
+#hk    # fzbr - FuZzy checkout git Branch (including remote branches)
+#hk    fzbr() {
+#hk      local branches branch
+#hk      branches=$(git branch --all | grep -v HEAD) &&
+#hk      branch=$(echo "$branches" |
+#hk               fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
+#hk      git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+#hk    }
+#hk
+#hk
+#hk     # fzco - FuZzy Checkout git Branch/Tag
+#hk     fzcbt() {
+#hk       local tags branches target
+#hk       tags=$(
+#hk         git tag | awk '{print "\x1b[31;1mtag\x1b[m\t" $1}') || return
+#hk       branches=$(
+#hk         git branch --all | grep -v HEAD             |
+#hk         sed "s/.* //"    | sed "s#remotes/[^/]*/##" |
+#hk         sort -u          | awk '{print "\x1b[34;1mbranch\x1b[m\t" $1}') || return
+#hk       target=$(
+#hk         (echo "$tags"; echo "$branches") |
+#hk         fzf-tmux -l30 -- --no-hscroll --ansi +m -d "\t" -n 2) || return
+#hk       git checkout $(echo "$target" | awk '{print $2}')
+#hk     }
+#hk
+#hk
+#hk     # fzshow - FuZzy SHOW git commit browser
+#hk     fzshow() {
+#hk       git log --graph --color=always \
+#hk           --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
+#hk       fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
+#hk           --bind "ctrl-m:execute:
+#hk                     (grep -o '[a-f0-9]\{7\}' | head -1 |
+#hk                     xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
+#hk                     {}
+#hk     FZF-EOF"
+#hk     }
+#hk
+#hk
+#hk     # fzcs - FuZzy get git Commit Sha values
+#hk     # example usage: git rebase -i `fzcs`
+#hk     fzcs() {
+#hk       local commits commit
+#hk       commits=$(git log --color=always --pretty=oneline --abbrev-commit --reverse) &&
+#hk       commit=$(echo "$commits" | fzf --tac +s +m -e --ansi --reverse) &&
+#hk       echo -n $(echo "$commit" | sed "s/ .*//")
+#hk     }
+#hk
+#hk     # fzstash - FuZzy easier way to deal with sTASHes
+#hk     # type fstash to get a list of your stashes
+#hk     # enter shows you the contents of the stash
+#hk     # ctrl-d shows a diff of the stash against your current HEAD
+#hk     # ctrl-b checks the stash out as a branch, for easier merging
+#hk     fzstash() {
+#hk       local out q k sha
+#hk       while out=$(
+#hk         git stash list --pretty="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%gs" |
+#hk         fzf --ansi --no-sort --query="$q" --print-query \
+#hk             --expect=ctrl-d,ctrl-b);
+#hk       do
+#hk         mapfile -t out <<< "$out"
+#hk         q="${out[0]}"
+#hk         k="${out[1]}"
+#hk         sha="${out[-1]}"
+#hk         sha="${sha%% *}"
+#hk         [[ -z "$sha" ]] && continue
+#hk         if [[ "$k" == 'ctrl-d' ]]; then
+#hk           git diff $sha
+#hk         elif [[ "$k" == 'ctrl-b' ]]; then
+#hk           git stash branch "stash-$sha" $sha
+#hk           break;
+#hk         else
+#hk           git stash show -p $sha
+#hk         fi
+#hk       done
+#hk     }
+#hk
+#hk
+#hk     #----------------------------
+#hk     # Tags
+#hk     #
+#hk
+#hk     # fztags - FuZzy search cTAGS
+#hk     fztags() {
+#hk       local line
+#hk       [ -e tags ] &&
+#hk       line=$(
+#hk         awk 'BEGIN { FS="\t" } !/^!/ {print toupper($4)"\t"$1"\t"$2"\t"$3}' tags |
+#hk         cut -c1-80 | fzf --nth=1,2
+#hk       ) && ${EDITOR:-vim} $(cut -f3 <<< "$line") -c "set nocst" \
+#hk                                           -c "silent tag $(cut -f2 <<< "$line")"
+#hk     }
+#hk
+#hk
+#hk     #----------------------------
+#hk     # vim
+#hk     #
+#hk
+#hk     # Inspired by v. Opens files in ~/.viminfo
+#hk
+#hk     # fzv - FuZzy open files stored in ~/.viminfo with Vim
+#hk     fzv() {
+#hk       local files
+#hk       files=$(grep '^>' ~/.viminfo | cut -c3- |
+#hk               while read line; do
+#hk                 [ -f "${line/\~/$HOME}" ] && echo "$line"
+#hk               done | fzf-tmux -d -m -q "$*" -1) && vim ${files//\~/$HOME}
+#hk     }
+#hk
+#hk     # fzgv - FuZzy open files stored in ~/.viminfo with GVim
+#hk     fzgv() {
+#hk       local files
+#hk       files=$(grep '^>' ~/.viminfo | cut -c3- |
+#hk               while read line; do
+#hk                 [ -f "${line/\~/$HOME}" ] && echo "$line"
+#hk               done | fzf-tmux -d -m -q "$*" -1) && vim ${files//\~/$HOME}
+#hk     }
+#hk
+#hk
+#hk     #----------------------------
+#hk     # FZ-Helper overview
+#hk     fzhelp() {
+#hk         cat << "EOT"
+#hk fz-Helper Functions
+#hk
+#hk ** Directory **
+#hk - fzcdf         FuZzy Change Directory to selected File
+#hk - fzd           FuZzy Directory, cd to selected directory
+#hk - fzda          FuZzy Directory Also dot, including hidden directories
+#hk - fzdr          FuZzy Directory Recursive, cd to selected parent directory
+#hk - fze [PATTERN] Open the selected file(s) with the default editor
+#hk - fzgd          FuZzy Get Directory, print selected directory
+#hk
+#hk ** History **
+#hk - fzh           Fuzzy History
+#hk
+#hk ** Kill Process **
+#hk - fzkill        FuZzy KILL process
+#hk
+#hk ** Git **
+#hk - fzbr          FuZzy checkout git Branch (including remote branches)
+#hk - fzco          FuZzy Checkout git Branch/Tag
+#hk - fzcs          FuZzy get git Commit Sha values; example usage: git rebase -i `fzcs`
+#hk - fzshow        FuZzy SHOW git commit browser
+#hk - fzstash       FuZzy easier way to deal with sTASHes
+#hk
+#hk ** Ctags **
+#hk - fztags        FuZzy search cTAGS
+#hk
+#hk ** vim/gim **
+#hk - fzgv          FuZzy open files stored in ~/.viminfo with GVim
+#hk - fzv           FuZzy open files stored in ~/.viminfo with Vim
+#hk EOT
+#hk     }
+#hk
+#hk fi      # if [[ $skip -eq 0 ]]; then
+#hk
 
 
 # vim: filetype=sh
