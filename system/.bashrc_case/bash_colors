@@ -2,63 +2,6 @@
 # ~/.bashrc_case/bash_colors
 #
 
-# hk
-# hk
-# hkuse_color=1
-# hk
-# hk# Set colorful PS1 only on colorful terminals.
-# hk# dircolors --print-database uses its own built-in database
-# hk# instead of using /etc/DIR_COLORS.  Try to use the external file
-# hk# first to take advantage of user additions.  Use internal bash
-# hk# globbing instead of external grep binary.
-# hksafe_term=${TERM//[^[:alnum:]]/?}   # sanitize TERM
-# hkmatch_lhs=""
-# hk[[ -f ~/.dir_colors   ]] && match_lhs="${match_lhs}$(<~/.dir_colors)"
-# hk[[ -f /etc/DIR_COLORS ]] && match_lhs="${match_lhs}$(</etc/DIR_COLORS)"
-# hk[[ -z ${match_lhs}    ]] && type -P dircolors >/dev/null \
-# hk                         && match_lhs=$(dircolors --print-database)
-# hk[[ $'\n'${match_lhs} == *$'\n'"TERM "${safe_term}* ]] && use_color=1
-# hk
-# hk
-# hkif [[ ${use_color} -eq 1 ]] ; then
-# hk
-# hk    # Enable colors for ls, etc.  Prefer ~/.dir_colors #64489
-# hk    if type -P dircolors >/dev/null ; then
-# hk        if [[ -f ~/.dir_colors ]] ; then
-# hk            eval $(dircolors -b ~/.dir_colors)
-# hk        elif [[ -f /etc/DIR_COLORS ]] ; then
-# hk            eval $(dircolors -b /etc/DIR_COLORS)
-# hk        fi
-# hk    fi
-# hk
-# hk    if [[ ${EUID} == 0 ]] ; then
-# hk        PS1='\[\033[01;31m\][\h\[\033[01;36m\] \W\[\033[01;31m\]]\$\[\033[00m\] '
-# hk    else
-# hk        PS1='\[\033[01;32m\][\u@\h\[\033[01;37m\] \W\[\033[01;32m\]]\$\[\033[00m\] '
-# hk    fi
-# hk
-# hk    alias ls='ls --color=auto'
-# hk    alias grep='grep --colour=auto'
-# hk    alias egrep='egrep --colour=auto'
-# hk    alias fgrep='fgrep --colour=auto'
-# hk
-# hkelse
-# hk
-# hk    if [[ ${EUID} == 0 ]] ; then
-# hk        # show root@ when we don't have colors
-# hk        PS1='\u@\h \W \$ '
-# hk    else
-# hk        PS1='\u@\h \w \$ '
-# hk    fi
-# hk
-# hkfi
-# hk
-# hkunset use_color safe_term match_lhs sh
-# hk
-# better yaourt colors
-export YAOURT_COLORS="nb=1:pkg=1:ver=1;32:lver=1;45:installed=1;42:grp=1;34:od=1;41;5:votes=1;44:dsc=0:other=1;35"
-
-
 
 # https://misc.flogisoft.com/bash/tip_colors_and_formatting
 
@@ -80,62 +23,62 @@ COL_WHITE='\[\e[37m\]'
 
 # 8/16 Colors ...
 # ... foreground
-COL_F16Default='\e[39m'
-COL_F16Black='\e[30m'
-COL_F16Red='\e[31m'
-COL_F16Green='\e[32m'
-COL_F16Yellow='\e[33m'
-COL_F16Blue='\e[34m'
-COL_F16Magenta='\e[35m'
-COL_F16Cyan='\e[36m'
-COL_F16LightGray='\e[37m'
-COL_F16DarkGray='\e[90m'
-COL_F16LightRed='\e[91m'
-COL_F16LightGreen='\e[92m'
-COL_F16LightYellow='\e[93m'
-COL_F16LightBlue='\e[94m'
-COL_F16LightMagenta='\e[95m'
-COL_F16LightCyan='\e[96m'
-COL_F16White='\e[97m'
+COL_F16Default='\[\e[39m\]'
+COL_F16Black='\[\e[30m\]'
+COL_F16Red='\[\e[31m\]'
+COL_F16Green='\[\e[32m\]'
+COL_F16Yellow='\[\e[33m\]'
+COL_F16Blue='\[\e[34m\]'
+COL_F16Magenta='\[\e[35m\]'
+COL_F16Cyan='\[\e[36m\]'
+COL_F16LightGray='\e[37m\]'
+COL_F16DarkGray='\[\e[90m\]'
+COL_F16LightRed='\[\e[91m\]'
+COL_F16LightGreen='\[\e[92m\]'
+COL_F16LightYellow='\[\e[93m\]'
+COL_F16LightBlue='\[\e[94m\]'
+COL_F16LightMagenta='\[\e[95m\]'
+COL_F16LightCyan='\[\e[96m\]'
+COL_F16White='\[\e[97m\]'
 # ... background
-COL_B16Default='\e[49m'
-COL_B16Black='\e[40m'
-COL_B16Red='\e[41m'
-COL_B16Green='\e[42m'
-COL_B16Yellow='\e[43m'
-COL_B16Blue='\e[44m'
-COL_B16Magenta='\e[45m'
-COL_B16Cyan='\e[46m'
-COL_B16LightGray='\e[47m'
-COL_B16DarkGray='\e[100m'
-COL_B16LightRed='\e[101m'
-COL_B16LightGreen='\e[102m'
-COL_B16LightYellow='\e[103m'
-COL_B16LightBlue='\e[104m'
-COL_B16LightMagenta='\e[105m'
-COL_B16LightCyan='\e[106m'
-COL_B16White='\e[107m'
+COL_B16Default='\[\e[49m\]'
+COL_B16Black='\[\e[40m\]'
+COL_B16Red='\[\e[41m\]'
+COL_B16Green='\[\e[42m\]'
+COL_B16Yellow='\[\e[43m\]'
+COL_B16Blue='\[\e[44m\]'
+COL_B16Magenta='\[\e[45m\]'
+COL_B16Cyan='\e[46m\]'
+COL_B16LightGray='\[\e[47m\]'
+COL_B16DarkGray='\[\e[100m\]'
+COL_B16LightRed='\[\e[101m\]'
+COL_B16LightGreen='\[\e[102m\]'
+COL_B16LightYellow='\[\e[103m\]'
+COL_B16LightBlue='\[\e[104m\]'
+COL_B16LightMagenta='\[\e[105m\]'
+COL_B16LightCyan='\[\e[106m\]'
+COL_B16White='\[\e[107m\]'
 
 
 # 
-COL_Default='\[\e[0m'
-COL_DarkGray='\[\e[1;30m'
-COL_Red='\[\e[0;31m'
-COL_LightRed='\[\e[1;31m'
-COL_Green='\[\e[0;32m'
-COL_LightGreen='\[\e[1;32m'
-COL_Brown='\[\e[0;33m'
-COL_Yellow='\[\e[1;33m'
-COL_Blue='\[\e[0;34m'
-COL_LightBlue='\[\e[1;34m'
-COL_Cyan='\[\e[0;35m'
-COL_LightCyan='\[\e[1;35m'
-COL_Magenta='\[\e[0;36m'
-COL_LightMagenta='\[\e[1;36m'
-COL_LightGray='\[\e[0;37m'
-COL_White='\[\e[1;37m'
-COLBG_Off='\[\e[0m'
-COLBG_Red='\[\e[41;37m'
+COL_Default='\[\e[0m\]'
+COL_DarkGray='\[\e[1;30m\]'
+COL_Red='\[\e[0;31m\]'
+COL_LightRed='\[\e[1;31m\]'
+COL_Green='\[\e[0;32m\]'
+COL_LightGreen='\[\e[1;32m\]'
+COL_Brown='\[\e[0;33m\]'
+COL_Yellow='\[\e[1;33m\]'
+COL_Blue='\[\e[0;34m\]'
+COL_LightBlue='\[\e[1;34m\]'
+COL_Cyan='\[\e[0;35m\]'
+COL_LightCyan='\[\e[1;35m\]'
+COL_Magenta='\[\e[0;36m\]'
+COL_LightMagenta='\[\e[1;36m\]'
+COL_LightGray='\[\e[0;37m\]'
+COL_White='\[\e[1;37m\]'
+COLBG_Off='\[\e[0m\]'
+COLBG_Red='\[\e[41;37m\]'
 
 # Color test command
 #echo -e "Test: ${COL_F16Blue} Blue ${COL_F16Default} ${COL_B16Red} Red ${COL_B16Default}"
@@ -152,13 +95,13 @@ COLBG_Red='\[\e[41;37m'
 #            5 - blink
 #            7 - reverse
 #            8 - hidden
-COL_Norm="\e[0m"                # back to default fore/background
-COL_Bold="\e[1m"
-COL_Dim="\e[2m"
-COL_Underlined="\e[4m"
-COL_Blink="\e[5m"
-COL_Reverse="\e[7m"
-COL_Hidden="\e[8m"
+COL_Norm="\[\e[0m\]"                # back to default fore/background
+COL_Bold="\[\e[1m\]"
+COL_Dim="\[\e[2m\]"
+COL_Underlined="\[\e[4m\]"
+COL_Blink="\[\e[5m\]"
+COL_Reverse="\[\e[7m\]"
+COL_Hidden="\[\e[8m\]"
 # reset all attributes: \e[0m
 
 
