@@ -2,11 +2,6 @@
 # ~/.bashrc
 #
 
-
-################################################################################
-# My .bashrc version
-################################################################################
-
 if [[ $- != *i* ]] ; then
     # Shell is non-interactive.  Be done now!
     return
@@ -26,7 +21,11 @@ complete -cf sudo
 [[ -r ~/.bashrc_case/bash_variables ]] && source ~/.bashrc_case/bash_variables
 [[ -r ~/.bashrc_case/bash_ps1 ]] && source ~/.bashrc_case/bash_ps1
 
+# Set up Bash shell completion
 [[ -r /usr/share/bash-completion/bash_completion ]] && . /usr/share/bash-completion/bash_completion
+
+# Set up Git to completion
+[[ -r /usr/share/git/completion/git-completion.bash ]] && . /usr/share/git/completion/git-completion.bash
 
 # Check if terminal connection is created via SSH. If variable
 # SESSION_TYPE is defined an SSH session is active.
@@ -40,14 +39,7 @@ fi
 
 unset use_color safe_term match_lhs sh
 
-[[ -r /usr/share/bash-completion/bash_completion ]] && . /usr/share/bash-completion/bash_completion
 BROWSER=/usr/bin/xdg-open
-
-# Load additional aliases and functions
-[[ -r ~/.bash_aliases ]] && . ~/.bash_aliases
-
-# Set up Git to automatically have Bash shell completion
-[[ -r /usr/share/git/completion/git-completion.bash ]] && . /usr/share/git/completion/git-completion.bash
 
 # load tmuxp tool for tmux
 [[ -d ~/.local/bin/ ]] && [[ ":$PATH:" != *":~/.local/bin:"* ]] && PATH="${PATH}:~/.local/bin:"
@@ -58,10 +50,8 @@ BROWSER=/usr/bin/xdg-open
       [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
     fi
 
-
 #hk [[ -f ~/.fzf.bash ]] && source ~/.fzf.bash
 [[ -r ~/.bashrc_case/bash_fzf ]] && source ~/.bashrc_case/bash_fzf
-
 
 # load tmuxp tool for tmux
 [[ -d ~/.local/bin/ ]] && [[ ":$PATH:" != *":~/.local/bin:"* ]] && PATH="${PATH}:~/.local/bin:"

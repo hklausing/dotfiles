@@ -7,31 +7,6 @@ alias df='df -h'                          # human-readable sizes
 #alias free='free -m'                      # show sizes in MB
 alias np='nano -w PKGBUILD'
 alias more=less
-# export QT_SELECT=4
-
-
-
-
-
-
-
-############################################################
-# Define access to used tools
-AWK=$(which awk)
-GREP=$(which grep)
-TAC=$(which tac)
-
-
-## CAPS-LOCK key works as CTRL key
-#case $(lsb_release -d) in
-#    *Manjaro*) [[ -x /usr/bin/setxkbmap ]] && /usr/bin/setxkbmap -option 'ctrl:nocaps' ;;
-# --> Sitzungs- und Startverhalten:
-#   Name: Disable CAPS LOCK
-#   Beschreibung: Disable CAPS LOCK
-#   Befehl: setxkbmap -option caps:none
-#   Auslöser: on login
-#esac
-
 
 #######
 ###
@@ -82,9 +57,7 @@ alias bashrc='gvim -p ~/.bashrc ~/.bashrc_case/*'
 
 # Set vim as default
 alias vi='vim -p'
-#alias vi='/usr/local/bin/vim -p'
 alias gvi='gvim -p'
-#alias gvi='/usr/local/bin/gvim -p'
 alias svi='sudo vi'
 alias vis='vim "+set si"'
 alias ed='editor'
@@ -108,7 +81,7 @@ alias cdprj='ccd ~/prj'
 
 # Execute system update & upgrade
 case ${DISTRIBUTION} in
-    *Manjaro) alias system-update='sudo pacman -Syyu';;
+    *Manjaro) alias system-update='sudo pacman -Syyu' ;;
     *Debian)  alias system-update='sudo apt-get update;sudo apt-get upgrade' ;;
 esac
 

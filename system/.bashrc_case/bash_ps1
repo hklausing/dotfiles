@@ -2,15 +2,6 @@
 # ~/.bashrc_case/bash_ps1
 #
 
-## Change the window title of X terminals
-#case ${TERM} in
-#    xterm*|rxvt*|Eterm*|aterm|kterm|gnome*|interix|konsole*)
-#        PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/~}\007"'
-#        ;;
-#    screen*)
-#        PROMPT_COMMAND='echo -ne "\033_${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/~}\033\\"'
-#        ;;
-#esac
 
 # functional color codes
 C_NORM=${COL_Norm}
@@ -38,34 +29,6 @@ __prompt_command_basic()
     ps+="\h"                            # host
     ps+=" \w"                           # current directory
     ps+=" \$ "                          # input prompt
-    PS1=${ps}
-}
-
-__prompt_command_1()
-{
-    # color prompt with recall issue (number will be kept in string)
-    local EXIT_CODE=$?
-    local ps="${C_DIVIDER}"
-
-    if [[ $EXIT_CODE -ne 0 ]]; then
-        # return code is not 0, visualize it
-        ps="${COL_BGRED} ${EXIT_CODE} ${C_NORM}${C_DIVIDER}"
-    fi
-
-    ps+="(${C_USER}\u"                          # user
-    ps+="${C_DIV}@"                             # divider
-    ps+="${C_HOST}\h${C_NORM}${C_DIVIDER})"     # host
-    ps+="-(${C_TIME}\t${C_DIVIDER})"            # current time
-
-    # if git prompt tool was found than change the the prompt related to the found path
-    if [[ ${GIT_PS1_SHOWDIRTYSTATE} -eq 1 ]]; then
-        # Define bash prompt for git branch information
-        ps+="\$(__git_ps1 \"($COL_CYAN%s${C_DIVIDER})-\")"   # current branch name if git path
-    fi
-
-    ps+="\n"                                    # new line
-    ps+="(${C_DIR}\w${C_DIVIDER})-"             # current directory
-    ps+="\n${C_NORM} \$ "
     PS1=${ps}
 }
 
@@ -132,7 +95,6 @@ __prompt_command_nocolor()
 }
 
 # redefine prompt_command to get customized version
-#PROMPT_COMMAND=__prompt_command
 PROMPT_COMMAND=__prompt_command_color
 #PROMPT_COMMAND=__prompt_command_nocolor
 #PROMPT_COMMAND=__prompt_command_basic

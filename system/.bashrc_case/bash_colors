@@ -102,7 +102,5 @@ COL_Underlined="\[\e[4m\]"
 COL_Blink="\[\e[5m\]"
 COL_Reverse="\[\e[7m\]"
 COL_Hidden="\[\e[8m\]"
-# reset all attributes: \e[0m
-
 
 # vim: set filetype=bash:
