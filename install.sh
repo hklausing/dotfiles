@@ -218,8 +218,6 @@ echo "Install dotfiles for '${g_dist}':"
 # system
 #
 makeLink 'B1' system/.bashrc                    ~/.bashrc
-#makeLink 'B2' system/.bash_aliases              ~/.bash_aliases
-#makeLink 'B3' system/.bash_fzf                  ~/.bash_fzf
 makeLink 'B4' system/.bash_profile              ~/.bash_profile
 makeLink 'B1' system/.bashrc_case/bash_aliases  ~/.bashrc_case/bash_aliases
 makeLink 'B1' system/.bashrc_case/bash_functions ~/.bashrc_case/bash_functions
