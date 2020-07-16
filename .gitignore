@@ -1,3 +1,5 @@
 # ignore these directories
 .original/
 
+# ignore these files
+*.orig

@@ -228,6 +228,7 @@ makeLink 'B1' system/.bashrc_case/bash_lscolors ~/.bashrc_case/bash_lscolors
 makeLink 'B1' system/.bashrc_case/bash_variables ~/.bashrc_case/bash_variables
 makeLink 'B1' system/.bashrc_case/bash_ps1      ~/.bashrc_case/bash_ps1
 makeLink 'B1' system/.bashrc_case/bash_fzf      ~/.bashrc_case/bash_fzf
+makeLink 'B1' system/.bashrc_case/bash_tools    ~/.bashrc_case/bash_tools
 makeLink 'S1' system/.inputrc                   ~/.inputrc
 
 
