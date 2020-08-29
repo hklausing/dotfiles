@@ -108,3 +108,5 @@
 # Following settings are for vimdiff
 # End of vimdiff settings
 
+[pull]
+	rebase = false

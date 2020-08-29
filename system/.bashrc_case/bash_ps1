@@ -3,18 +3,6 @@
 #
 
 
-# functional color codes
-C_NORM=${COL_Norm}
-C_DIVIDER=${COL_F16DarkGray}
-C_DIV=${COL_WHITE}                   # user host divider
-C_RCODE=${COL_BGRED}
-C_TIME=${COL_RED}
-C_DIR=${COL_YELLOW}
-C_USER=${COL_BLUE}
-C_HOST=${COL_LGREEN}
-C_PROMT=${COL_Bold}${COL_F16White}
-
-
 if [[ -r /home/$USER/.git-prompt.sh ]]; then
     . /home/$USER/.git-prompt.sh
     export GIT_PS1_SHOWDIRTYSTATE=1
@@ -44,7 +32,7 @@ __prompt_command_color()
     fi
 
     ps+="${COL_DarkGray}("                          # divider
-    ps+="${COL_Blue}\u"                             # user
+    ps+="${COL_F16LightBlue}\u"                     # user
     ps+="${COL_DarkGray}@"                          # divider
     ps+="${COL_Green}\h"                            # host
     ps+="${COL_DarkGray})-("                        # divider
